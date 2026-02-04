@@ -16,7 +16,9 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             DifficultySeeder::class,
             CategorySeeder::class,
-            QuestionSeeder::class,
+
+            /*** start QuestionSeeder from artisan:seed command if nessessary ***/
+            // QuestionSeeder::class,
         ]);
 
         User::factory()->create([
