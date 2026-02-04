@@ -166,12 +166,6 @@ const formatTime = (ms: number | null) => {
                         {{ currentQuestion.text }}
                     </h2>
                 </div>
-                <button
-                    class="text-xs text-red-500 hover:underline"
-                    @click="finishQuiz"
-                >
-                    Quiz abbrechen
-                </button>
             </div>
 
             <div class="grid gap-3">
@@ -191,11 +185,12 @@ const formatTime = (ms: number | null) => {
             </div>
 
             <div class="flex items-center justify-between pt-4">
-                <Link
-                    class="text-sm text-[#706f6c] hover:underline dark:text-[#A1A09A]"
-                    href="/"
-                    >Abbrechen</Link
+                <button
+                    class="rounded-md bg-black px-6 py-2 font-medium text-white dark:bg-white dark:text-black"
+                    @click="finishQuiz"
                 >
+                    Abbrechen
+                </button>
                 <button
                     class="rounded-md bg-black px-6 py-2 font-medium text-white dark:bg-white dark:text-black"
                     @click="nextQuestion"
