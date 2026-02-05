@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { Form, Head } from '@inertiajs/vue3';
 import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
@@ -14,27 +14,27 @@ defineProps<{
 
 <template>
     <AuthLayout
-        title="Verify email"
-        description="Please verify your email address by clicking on the link we just emailed to you."
+        description="Bitte bestätigen Sie Ihre E-Mail-Adresse, indem Sie auf den Link klicken, den wir Ihnen gerade geschickt haben."
+        title="E-Mail bestätigen"
     >
-        <Head title="Email verification" />
+        <Head title="E-Mail-Bestätigung" />
 
         <div
             v-if="status === 'verification-link-sent'"
             class="mb-4 text-center text-sm font-medium text-green-600"
         >
-            A new verification link has been sent to the email address you
-            provided during registration.
+            Ein neuer Bestätigungslink wurde an die E-Mail-Adresse gesendet, die
+            Sie bei der Registrierung angegeben haben.
         </div>
 
         <Form
-            v-bind="send.form()"
-            class="space-y-6 text-center"
             v-slot="{ processing }"
+            class="space-y-6 text-center"
+            v-bind="send.form()"
         >
             <Button :disabled="processing" variant="secondary">
                 <Spinner v-if="processing" />
-                Resend verification email
+                Bestätigungs-E-Mail erneut senden
             </Button>
 
             <TextLink
@@ -42,7 +42,7 @@ defineProps<{
                 as="button"
                 class="mx-auto block text-sm"
             >
-                Log out
+                Ausloggen
             </TextLink>
         </Form>
     </AuthLayout>

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { Form, Head } from '@inertiajs/vue3';
 import InputError from '@/components/InputError.vue';
 import TextLink from '@/components/TextLink.vue';
@@ -21,10 +21,10 @@ defineProps<{
 
 <template>
     <AuthBase
-        title="Log in to your account"
-        description="Enter your email and password below to log in"
+        description="Geben Sie unten Ihre E-Mail-Adresse und Ihr Passwort ein, um sich anzumelden"
+        title="In Ihr Konto einloggen"
     >
-        <Head title="Log in" />
+        <Head title="Einloggen" />
 
         <div
             v-if="status"
@@ -34,76 +34,78 @@ defineProps<{
         </div>
 
         <Form
-            v-bind="store.form()"
-            :reset-on-success="['password']"
             v-slot="{ errors, processing }"
+            :reset-on-success="['password']"
             class="flex flex-col gap-6"
+            v-bind="store.form()"
         >
             <div class="grid gap-6">
                 <div class="grid gap-2">
-                    <Label for="email">Email address</Label>
+                    <Label for="email">E-Mail-Adresse</Label>
                     <Input
                         id="email"
-                        type="email"
-                        name="email"
-                        required
-                        autofocus
                         :tabindex="1"
                         autocomplete="email"
+                        autofocus
+                        name="email"
                         placeholder="email@example.com"
+                        required
+                        type="email"
                     />
                     <InputError :message="errors.email" />
                 </div>
 
                 <div class="grid gap-2">
                     <div class="flex items-center justify-between">
-                        <Label for="password">Password</Label>
+                        <Label for="password">Passwort</Label>
                         <TextLink
                             v-if="canResetPassword"
                             :href="request()"
-                            class="text-sm"
                             :tabindex="5"
+                            class="text-sm"
                         >
-                            Forgot password?
+                            Passwort vergessen?
                         </TextLink>
                     </div>
                     <Input
                         id="password"
-                        type="password"
-                        name="password"
-                        required
                         :tabindex="2"
                         autocomplete="current-password"
-                        placeholder="Password"
+                        name="password"
+                        placeholder="Passwort"
+                        required
+                        type="password"
                     />
                     <InputError :message="errors.password" />
                 </div>
 
                 <div class="flex items-center justify-between">
-                    <Label for="remember" class="flex items-center space-x-3">
-                        <Checkbox id="remember" name="remember" :tabindex="3" />
-                        <span>Remember me</span>
+                    <Label class="flex items-center space-x-3" for="remember">
+                        <Checkbox id="remember" :tabindex="3" name="remember" />
+                        <span>Angemeldet bleiben</span>
                     </Label>
                 </div>
 
                 <Button
-                    type="submit"
-                    class="mt-4 w-full"
-                    :tabindex="4"
                     :disabled="processing"
+                    :tabindex="4"
+                    class="mt-4 w-full"
                     data-test="login-button"
+                    type="submit"
                 >
                     <Spinner v-if="processing" />
-                    Log in
+                    Einloggen
                 </Button>
             </div>
 
             <div
-                class="text-center text-sm text-muted-foreground"
                 v-if="canRegister"
+                class="text-center text-sm text-muted-foreground"
             >
-                Don't have an account?
-                <TextLink :href="register()" :tabindex="5">Sign up</TextLink>
+                Noch kein Konto?
+                <TextLink :href="register()" :tabindex="5"
+                    >Registrieren</TextLink
+                >
             </div>
         </Form>
     </AuthBase>

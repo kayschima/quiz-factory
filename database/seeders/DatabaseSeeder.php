@@ -12,10 +12,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call([RoleSeeder::class]);
+        $this->call([DifficultySeeder::class]);
+
         if (config('app.env') === 'testing') {
             $this->call([
-                RoleSeeder::class,
-                DifficultySeeder::class,
                 CategorySeeder::class,
                 QuestionSeeder::class,
             ]);

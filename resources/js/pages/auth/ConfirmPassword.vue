@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { Form, Head } from '@inertiajs/vue3';
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
@@ -11,27 +11,27 @@ import { store } from '@/routes/password/confirm';
 
 <template>
     <AuthLayout
-        title="Confirm your password"
-        description="This is a secure area of the application. Please confirm your password before continuing."
+        description="Dies ist ein geschützter Bereich der Anwendung. Bitte bestätigen Sie Ihr Passwort, bevor Sie fortfahren."
+        title="Passwort bestätigen"
     >
-        <Head title="Confirm password" />
+        <Head title="Passwort bestätigen" />
 
         <Form
-            v-bind="store.form()"
-            reset-on-success
             v-slot="{ errors, processing }"
+            reset-on-success
+            v-bind="store.form()"
         >
             <div class="space-y-6">
                 <div class="grid gap-2">
-                    <Label htmlFor="password">Password</Label>
+                    <Label htmlFor="password">Passwort</Label>
                     <Input
                         id="password"
-                        type="password"
-                        name="password"
-                        class="mt-1 block w-full"
-                        required
                         autocomplete="current-password"
                         autofocus
+                        class="mt-1 block w-full"
+                        name="password"
+                        required
+                        type="password"
                     />
 
                     <InputError :message="errors.password" />
@@ -39,12 +39,12 @@ import { store } from '@/routes/password/confirm';
 
                 <div class="flex items-center">
                     <Button
-                        class="w-full"
                         :disabled="processing"
+                        class="w-full"
                         data-test="confirm-password-button"
                     >
                         <Spinner v-if="processing" />
-                        Confirm Password
+                        Passwort bestätigen
                     </Button>
                 </div>
             </div>

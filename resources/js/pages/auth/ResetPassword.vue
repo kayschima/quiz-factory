@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { Form, Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import InputError from '@/components/InputError.vue';
@@ -19,69 +19,69 @@ const inputEmail = ref(props.email);
 
 <template>
     <AuthLayout
-        title="Reset password"
-        description="Please enter your new password below"
+        description="Bitte geben Sie unten Ihr neues Passwort ein"
+        title="Passwort zurücksetzen"
     >
-        <Head title="Reset password" />
+        <Head title="Passwort zurücksetzen" />
 
         <Form
-            v-bind="update.form()"
-            :transform="(data) => ({ ...data, token, email })"
-            :reset-on-success="['password', 'password_confirmation']"
             v-slot="{ errors, processing }"
+            :reset-on-success="['password', 'password_confirmation']"
+            :transform="(data) => ({ ...data, token, email })"
+            v-bind="update.form()"
         >
             <div class="grid gap-6">
                 <div class="grid gap-2">
-                    <Label for="email">Email</Label>
+                    <Label for="email">E-Mail</Label>
                     <Input
                         id="email"
-                        type="email"
-                        name="email"
-                        autocomplete="email"
                         v-model="inputEmail"
+                        autocomplete="email"
                         class="mt-1 block w-full"
+                        name="email"
                         readonly
+                        type="email"
                     />
                     <InputError :message="errors.email" class="mt-2" />
                 </div>
 
                 <div class="grid gap-2">
-                    <Label for="password">Password</Label>
+                    <Label for="password">Passwort</Label>
                     <Input
                         id="password"
-                        type="password"
-                        name="password"
                         autocomplete="new-password"
-                        class="mt-1 block w-full"
                         autofocus
-                        placeholder="Password"
+                        class="mt-1 block w-full"
+                        name="password"
+                        placeholder="Passwort"
+                        type="password"
                     />
                     <InputError :message="errors.password" />
                 </div>
 
                 <div class="grid gap-2">
                     <Label for="password_confirmation">
-                        Confirm Password
+                        Passwort bestätigen
                     </Label>
                     <Input
                         id="password_confirmation"
-                        type="password"
-                        name="password_confirmation"
                         autocomplete="new-password"
                         class="mt-1 block w-full"
-                        placeholder="Confirm password"
+                        name="password_confirmation"
+                        placeholder="Passwort bestätigen"
+                        type="password"
                     />
                     <InputError :message="errors.password_confirmation" />
                 </div>
 
                 <Button
-                    type="submit"
-                    class="mt-4 w-full"
                     :disabled="processing"
+                    class="mt-4 w-full"
                     data-test="reset-password-button"
+                    type="submit"
                 >
                     <Spinner v-if="processing" />
-                    Reset password
+                    Passwort zurücksetzen
                 </Button>
             </div>
         </Form>
