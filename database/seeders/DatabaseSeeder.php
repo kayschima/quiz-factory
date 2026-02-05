@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call([RoleSeeder::class]);
         $this->call([DifficultySeeder::class]);
 
-        if (config('app.env') === 'testing') {
+        if (config('app.env') !== 'production') {
             $this->call([
                 CategorySeeder::class,
                 QuestionSeeder::class,
