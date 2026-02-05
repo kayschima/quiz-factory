@@ -20,15 +20,15 @@ const startQuiz = () => {
 
 <template>
     <Head title="Quiz starten" />
-    <div class="min-h-screen flex items-center justify-center p-6 bg-white dark:bg-[#0a0a0a]">
-        <div class="w-full max-w-xl rounded-lg border p-6 space-y-6 dark:border-[#2a2a29]">
+    <div class="min-h-screen flex items-center justify-center p-6 bg-background">
+        <div class="w-full max-w-xl rounded-lg border p-6 space-y-6 border-border">
             <h1 class="text-2xl font-semibold">Quiz konfigurieren</h1>
             <div class="space-y-4">
                 <div>
                     <label class="block text-sm mb-1">Schwierigkeit</label>
                     <select
                         v-model="difficultyId"
-                        class="w-full border rounded px-3 py-2 dark:bg-[#161615] dark:border-[#2a2a29]"
+                        class="w-full border rounded px-3 py-2 bg-background border-border"
                     >
                         <option value="any">egal</option>
                         <option v-for="diff in difficulties" :key="diff.id" :value="diff.id">{{ diff.name }}</option>
@@ -38,7 +38,7 @@ const startQuiz = () => {
                     <label class="block text-sm mb-1">Kategorie</label>
                     <select
                         v-model="categoryId"
-                        class="w-full border rounded px-3 py-2 dark:bg-[#161615] dark:border-[#2a2a29]"
+                        class="w-full border rounded px-3 py-2 bg-background border-border"
                     >
                         <option value="any">egal</option>
                         <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
@@ -48,11 +48,11 @@ const startQuiz = () => {
             <div class="flex gap-3">
                 <button
                     @click="startQuiz"
-                    class="rounded bg-black px-4 py-2 text-white dark:bg-white dark:text-black"
+                    class="rounded bg-primary px-4 py-2 text-primary-foreground"
                 >
                     Start
                 </button>
-                <Link href="/" class="rounded border px-4 py-2 dark:border-[#2a2a29]">Abbrechen</Link>
+                <Link href="/" class="rounded border px-4 py-2 border-border">Abbrechen</Link>
             </div>
         </div>
     </div>

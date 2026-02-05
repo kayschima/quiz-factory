@@ -103,7 +103,7 @@ const breadcrumbItems: BreadcrumbItem[] = [
                         >
                             <p
                                 v-show="recentlySuccessful"
-                                class="text-sm text-neutral-600"
+                                class="text-sm text-muted-foreground"
                             >
                                 Saved.
                             </p>

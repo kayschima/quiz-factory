@@ -137,7 +137,7 @@ const formatTime = (ms: number | null) => {
 <template>
     <Head title="Quiz" />
     <div
-        class="flex min-h-screen items-center justify-center bg-white p-6 text-[#1b1b18] dark:bg-[#0a0a0a] dark:text-[#EDEDEC]"
+        class="flex min-h-screen items-center justify-center bg-background p-6 text-foreground"
     >
         <!-- Loading -->
         <div v-if="gameState === 'loading'" class="text-xl font-medium">
@@ -147,7 +147,7 @@ const formatTime = (ms: number | null) => {
         <!-- Countdown -->
         <div v-if="gameState === 'countdown'" class="text-center">
             <div
-                class="mb-4 text-sm tracking-widest text-[#706f6c] uppercase dark:text-[#A1A09A]"
+                class="mb-4 text-sm tracking-widest text-muted-foreground uppercase"
             >
                 Quiz startet in
             </div>
@@ -158,7 +158,7 @@ const formatTime = (ms: number | null) => {
         <div v-if="gameState === 'playing'" class="w-full max-w-2xl space-y-8">
             <div class="flex items-end justify-between">
                 <div class="space-y-1">
-                    <div class="text-sm text-[#706f6c] dark:text-[#A1A09A]">
+                    <div class="text-sm text-muted-foreground">
                         Frage {{ currentQuestionIndex + 1 }} von
                         {{ questions.length }}
                     </div>
@@ -174,8 +174,8 @@ const formatTime = (ms: number | null) => {
                     :key="answer.id"
                     :class="[
                         isAnswerSelected(answer.id)
-                            ? 'border-black bg-black text-white dark:border-white dark:bg-white dark:text-black'
-                            : 'border-[#e3e3e0] bg-white hover:border-[#1b1b18] dark:border-[#3E3E3A] dark:bg-[#161615] dark:hover:border-[#EDEDEC]',
+                            ? 'bg-primary text-primary-foreground border-primary'
+                            : 'border-border bg-background hover:border-foreground/50',
                     ]"
                     class="w-full rounded-lg border p-4 text-left transition-all"
                     @click="toggleAnswer(answer.id)"
@@ -186,13 +186,13 @@ const formatTime = (ms: number | null) => {
 
             <div class="flex items-center justify-between pt-4">
                 <button
-                    class="rounded-md bg-black px-6 py-2 font-medium text-white dark:bg-white dark:text-black"
+                    class="rounded-md bg-primary px-6 py-2 font-medium text-primary-foreground"
                     @click="finishQuiz"
                 >
                     Abbrechen
                 </button>
                 <button
-                    class="rounded-md bg-black px-6 py-2 font-medium text-white dark:bg-white dark:text-black"
+                    class="rounded-md bg-primary px-6 py-2 font-medium text-primary-foreground"
                     @click="nextQuestion"
                 >
                     {{
@@ -211,21 +211,21 @@ const formatTime = (ms: number | null) => {
         >
             <div class="space-y-2 text-center">
                 <h1 class="text-4xl font-bold">Quiz beendet!</h1>
-                <p class="text-xl text-[#706f6c] dark:text-[#A1A09A]">
+                <p class="text-xl text-muted-foreground">
                     Du hast
                     <span
-                        class="font-bold text-[#1b1b18] dark:text-[#EDEDEC]"
+                        class="font-bold text-foreground"
                         >{{ score }}</span
                     >
                     von {{ questions.length }} Fragen richtig beantwortet.
                 </p>
                 <p
                     v-if="elapsedTime !== null"
-                    class="text-sm text-[#706f6c] dark:text-[#A1A09A]"
+                    class="text-sm text-muted-foreground"
                 >
                     Benötigte Zeit:
                     <span
-                        class="font-medium text-[#1b1b18] dark:text-[#EDEDEC]"
+                        class="font-medium text-foreground"
                         >{{ formatTime(elapsedTime) }}</span
                     >
                 </p>
@@ -235,7 +235,7 @@ const formatTime = (ms: number | null) => {
                 <div
                     v-for="(q, idx) in questions"
                     :key="q.id"
-                    class="space-y-4 rounded-lg border p-6 dark:border-[#2a2a29]"
+                    class="space-y-4 rounded-lg border p-6 border-border"
                 >
                     <div class="flex gap-3">
                         <span class="font-bold">{{ idx + 1 }}.</span>
@@ -250,7 +250,7 @@ const formatTime = (ms: number | null) => {
                                     ? 'border-green-500 bg-green-100 text-green-900 dark:bg-green-900/30 dark:text-green-400'
                                     : '',
                                 !a.is_correct && isAnswerSelected(a.id, idx)
-                                    ? 'border-red-500 bg-red-100 text-red-900 dark:bg-red-900/30 dark:text-red-400'
+                                    ? 'border-destructive bg-destructive/10 text-destructive'
                                     : '',
                                 a.is_correct && !isAnswerSelected(a.id, idx)
                                     ? 'border-yellow-500 bg-yellow-100 text-yellow-900 dark:bg-yellow-900/30 dark:text-yellow-400'
@@ -290,7 +290,7 @@ const formatTime = (ms: number | null) => {
 
             <div class="pt-6 text-center">
                 <Link
-                    class="inline-flex items-center justify-center rounded-md bg-black px-8 py-3 font-medium text-white dark:bg-white dark:text-black"
+                    class="inline-flex items-center justify-center rounded-md bg-primary px-8 py-3 font-medium text-primary-foreground"
                     href="/"
                 >
                     Quiz beenden
