@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\QuestionIndexController;
 use App\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,6 +25,8 @@ Route::get('/quiz/play', function () {
 })->name('quiz.play');
 
 // Question submission
+Route::get('/questions', QuestionIndexController::class)->name('questions.index');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/questions/submit', [QuestionController::class, 'create'])->name('questions.create');
     Route::post('/questions', [QuestionController::class, 'store'])->name('questions.store');

@@ -26,10 +26,16 @@ import AppLogo from '@/components/AppLogo.vue';
                     Quiz teilnehmen
                 </Link>
                 <Link
-                    class="inline-flex items-center justify-center rounded-md border px-5 py-3 border-border"
+                    class="inline-flex items-center justify-center rounded-md border border-border px-5 py-3"
                     href="/questions/submit"
                 >
                     Frage einreichen
+                </Link>
+                <Link
+                    class="inline-flex items-center justify-center rounded-md border border-border px-5 py-3"
+                    href="/questions"
+                >
+                    Alle eingereichten Fragen
                 </Link>
             </div>
         </div>
