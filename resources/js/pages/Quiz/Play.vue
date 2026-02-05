@@ -155,7 +155,7 @@ const formatTime = (ms: number | null) => {
         </div>
 
         <!-- Playing -->
-        <div v-if="gameState === 'playing'" class="w-full max-w-2xl space-y-8">
+        <div v-if="gameState === 'playing'" class="w-full max-w-4xl space-y-8">
             <div class="flex items-end justify-between">
                 <div class="space-y-1">
                     <div class="text-sm text-muted-foreground">
@@ -174,7 +174,7 @@ const formatTime = (ms: number | null) => {
                     :key="answer.id"
                     :class="[
                         isAnswerSelected(answer.id)
-                            ? 'bg-primary text-primary-foreground border-primary'
+                            ? 'border-primary bg-primary text-primary-foreground'
                             : 'border-border bg-background hover:border-foreground/50',
                     ]"
                     class="w-full rounded-lg border p-4 text-left transition-all"
@@ -207,16 +207,13 @@ const formatTime = (ms: number | null) => {
         <!-- Finished -->
         <div
             v-if="gameState === 'finished'"
-            class="w-full max-w-3xl space-y-8 py-10"
+            class="w-full max-w-4xl space-y-8 py-10"
         >
             <div class="space-y-2 text-center">
                 <h1 class="text-4xl font-bold">Quiz beendet!</h1>
                 <p class="text-xl text-muted-foreground">
                     Du hast
-                    <span
-                        class="font-bold text-foreground"
-                        >{{ score }}</span
-                    >
+                    <span class="font-bold text-foreground">{{ score }}</span>
                     von {{ questions.length }} Fragen richtig beantwortet.
                 </p>
                 <p
@@ -224,10 +221,9 @@ const formatTime = (ms: number | null) => {
                     class="text-sm text-muted-foreground"
                 >
                     Benötigte Zeit:
-                    <span
-                        class="font-medium text-foreground"
-                        >{{ formatTime(elapsedTime) }}</span
-                    >
+                    <span class="font-medium text-foreground">{{
+                        formatTime(elapsedTime)
+                    }}</span>
                 </p>
             </div>
 
@@ -235,7 +231,7 @@ const formatTime = (ms: number | null) => {
                 <div
                     v-for="(q, idx) in questions"
                     :key="q.id"
-                    class="space-y-4 rounded-lg border p-6 border-border"
+                    class="space-y-4 rounded-lg border border-border p-6"
                 >
                     <div class="flex gap-3">
                         <span class="font-bold">{{ idx + 1 }}.</span>
