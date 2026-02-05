@@ -17,7 +17,7 @@ class QuizController extends Controller
     public function setup(): Response
     {
         return Inertia::render('Quiz/Setup', [
-            'categories' => Category::all(),
+            'categories' => Category::query()->orderBy('name')->get(),
             'difficulties' => Difficulty::all(),
         ]);
     }
