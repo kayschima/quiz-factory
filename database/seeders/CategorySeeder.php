@@ -17,8 +17,8 @@ class CategorySeeder extends Seeder
             'Spieler',
             'Funktionäre',
             'Stadion',
-            'Vereinshistorie',
-            'Erfolge',
+            'Verein',
+            'Historie',
             'Stadtteil',
         ];
 

@@ -21,7 +21,7 @@ class QuestionSeeder extends Seeder
         $questions = [
             [
                 'text' => 'In welchem Jahr wurde der FC St. Pauli offiziell gegründet?',
-                'category' => 'Vereinshistorie',
+                'category' => 'Verein',
                 'difficulty' => 'leicht',
                 'answers' => [
                     ['text' => '1910', 'is_correct' => true],
@@ -43,7 +43,7 @@ class QuestionSeeder extends Seeder
             ],
             [
                 'text' => 'Welches Symbol ist untrennbar mit dem FC St. Pauli verbunden?',
-                'category' => 'Vereinshistorie',
+                'category' => 'Verein',
                 'difficulty' => 'sehr leicht',
                 'answers' => [
                     ['text' => 'Totenkopf', 'is_correct' => true],
@@ -76,7 +76,7 @@ class QuestionSeeder extends Seeder
             ],
             [
                 'text' => 'Wie lautet der Spitzname der Mannschaft?',
-                'category' => 'Vereinshistorie',
+                'category' => 'Verein',
                 'difficulty' => 'leicht',
                 'answers' => [
                     ['text' => 'Kiezkicker', 'is_correct' => true],
@@ -109,7 +109,7 @@ class QuestionSeeder extends Seeder
             ],
             [
                 'text' => 'Gegen welchen Verein gelang 2002 der berühmte 2:1 Sieg als "Weltpokalsiegerbesieger"?',
-                'category' => 'Erfolge',
+                'category' => 'Historie',
                 'difficulty' => 'leicht',
                 'answers' => [
                     ['text' => 'FC Bayern München', 'is_correct' => true],
@@ -164,7 +164,7 @@ class QuestionSeeder extends Seeder
             ],
             [
                 'text' => 'In welcher Liga spielte der FC St. Pauli in der Saison 2023/2024?',
-                'category' => 'Erfolge',
+                'category' => 'Historie',
                 'difficulty' => 'leicht',
                 'answers' => [
                     ['text' => '2. Bundesliga', 'is_correct' => true],
@@ -186,7 +186,7 @@ class QuestionSeeder extends Seeder
             ],
             [
                 'text' => 'Welcher dieser Begriffe beschreibt eine Ultra-Gruppierung des FC St. Pauli?',
-                'category' => 'Vereinshistorie',
+                'category' => 'Verein',
                 'difficulty' => 'mittel',
                 'answers' => [
                     ['text' => 'Ultrà Sankt Pauli (USP)', 'is_correct' => true],
@@ -197,7 +197,7 @@ class QuestionSeeder extends Seeder
             ],
             [
                 'text' => 'Gegen wen bestreitet der FC St. Pauli das Hamburger Stadtderby?',
-                'category' => 'Vereinshistorie',
+                'category' => 'Verein',
                 'difficulty' => 'sehr leicht',
                 'answers' => [
                     ['text' => 'Hamburger SV', 'is_correct' => true],
@@ -230,7 +230,7 @@ class QuestionSeeder extends Seeder
             ],
             [
                 'text' => 'In welchem Jahr gelang der Aufstieg in die 1. Bundesliga unter Trainer Fabian Hürzeler?',
-                'category' => 'Erfolge',
+                'category' => 'Historie',
                 'difficulty' => 'leicht',
                 'answers' => [
                     ['text' => '2024', 'is_correct' => true],
