@@ -12,7 +12,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call([RoleSeeder::class]);
         $this->call([DifficultySeeder::class]);
 
         if (config('app.env') !== 'production') {
@@ -24,7 +23,6 @@ class DatabaseSeeder extends Seeder
             User::factory()->create([
                 'name' => 'Test User',
                 'email' => 'test@example.com',
-                'role_id' => 1,
             ]);
         }
 
