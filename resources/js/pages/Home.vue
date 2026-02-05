@@ -31,12 +31,6 @@ import AppLogo from '@/components/AppLogo.vue';
                 >
                     Frage einreichen
                 </Link>
-                <Link
-                    class="inline-flex items-center justify-center rounded-md border border-border px-5 py-3"
-                    href="/questions"
-                >
-                    Alle eingereichten Fragen
-                </Link>
             </div>
         </div>
     </div>

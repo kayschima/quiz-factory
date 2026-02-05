@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { Head, Link, router } from '@inertiajs/vue3';
+import QuestionController from '@/actions/App/Http/Controllers/QuestionController';
 import { Button } from '@/components/ui/button';
 import {
     Select,
@@ -75,7 +76,7 @@ const filterByCategory = (value: string) => {
                     </p>
                 </div>
                 <Button as-child variant="outline">
-                    <Link href="/">Zurück zur Startseite</Link>
+                    <Link :href="QuestionController.create()">Zurück</Link>
                 </Button>
             </div>
 
