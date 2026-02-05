@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { Head, Link } from '@inertiajs/vue3';
 import { computed, onMounted, ref } from 'vue';
+import MainLayout from '@/layouts/MainLayout.vue';
 
 interface Answer {
     id: number;
@@ -136,9 +137,7 @@ const formatTime = (ms: number | null) => {
 
 <template>
     <Head title="Quiz" />
-    <div
-        class="flex min-h-screen items-center justify-center bg-background p-6 text-foreground"
-    >
+    <MainLayout>
         <!-- Loading -->
         <div v-if="gameState === 'loading'" class="text-xl font-medium">
             Lade Fragen...
@@ -293,5 +292,5 @@ const formatTime = (ms: number | null) => {
                 </Link>
             </div>
         </div>
-    </div>
+    </MainLayout>
 </template>
