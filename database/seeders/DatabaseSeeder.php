@@ -12,19 +12,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call([
-            RoleSeeder::class,
-            DifficultySeeder::class,
-            CategorySeeder::class,
+        if (config('app.env') === 'testing') {
+            $this->call([
+                RoleSeeder::class,
+                DifficultySeeder::class,
+                CategorySeeder::class,
+                QuestionSeeder::class,
+            ]);
 
-            /*** start QuestionSeeder from artisan:seed command if nessessary ***/
-            // QuestionSeeder::class,
-        ]);
+            User::factory()->create([
+                'name' => 'Test User',
+                'email' => 'test@example.com',
+                'role_id' => 1,
+            ]);
+        }
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'role_id' => 1,
-        ]);
     }
 }
