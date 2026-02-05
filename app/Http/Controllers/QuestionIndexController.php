@@ -24,7 +24,9 @@ class QuestionIndexController extends Controller
             })
             ->with('category')
             ->latest()
-            ->get();
+            ->orderBy('questions.text')
+            ->paginate(10)
+            ->withQueryString();
 
         return Inertia::render('Questions/Index', [
             'questions' => $questions,

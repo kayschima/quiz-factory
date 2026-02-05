@@ -28,8 +28,22 @@ interface Question {
     category: Category;
 }
 
+interface PaginationLink {
+    url: string | null;
+    label: string;
+    active: boolean;
+}
+
+interface PaginatedQuestions {
+    data: Question[];
+    links: PaginationLink[];
+    current_page: number;
+    last_page: number;
+    total: number;
+}
+
 const props = defineProps<{
-    questions: Question[];
+    questions: PaginatedQuestions;
     categories: Category[];
     filters: {
         category: string | null;
@@ -99,7 +113,7 @@ const filterByCategory = (value: string) => {
                     </TableHeader>
                     <TableBody>
                         <TableRow
-                            v-for="question in questions"
+                            v-for="question in questions.data"
                             :key="question.id"
                         >
                             <TableCell class="font-medium"
@@ -108,13 +122,37 @@ const filterByCategory = (value: string) => {
                             <TableCell>{{ question.text }}</TableCell>
                             <TableCell>{{ question.category.name }}</TableCell>
                         </TableRow>
-                        <TableRow v-if="questions.length === 0">
+                        <TableRow v-if="questions.data.length === 0">
                             <TableCell class="h-24 text-center" colspan="3">
                                 Keine Fragen gefunden.
                             </TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>
+            </div>
+
+            <div v-if="questions.links.length > 3" class="flex justify-center">
+                <nav class="flex items-center gap-1">
+                    <template v-for="(link, key) in questions.links" :key="key">
+                        <div
+                            v-if="link.url === null"
+                            class="rounded-md border border-border px-4 py-2 text-sm text-muted-foreground"
+                            v-html="link.label"
+                        />
+                        <Link
+                            v-else
+                            :class="[
+                                'rounded-md border border-border px-4 py-2 text-sm transition-colors hover:bg-accent',
+                                link.active
+                                    ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                                    : 'bg-background',
+                            ]"
+                            :href="link.url"
+                        >
+                            <span v-html="link.label" />
+                        </Link>
+                    </template>
+                </nav>
             </div>
         </div>
     </div>
