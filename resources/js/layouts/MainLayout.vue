@@ -1,4 +1,6 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { Toast } from '@/components/ui/toast';
+</script>
 
 <template>
     <div
@@ -8,6 +10,7 @@
             <slot />
         </div>
     </div>
+    <Toast />
 </template>
 
 <style scoped></style>
