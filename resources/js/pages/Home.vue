@@ -2,6 +2,7 @@
 import { Head, Link } from '@inertiajs/vue3';
 import AppLogo from '@/components/AppLogo.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
+import QuestionIndexController from '@/actions/App/Http/Controllers/QuestionIndexController';
 </script>
 
 <template>
@@ -24,10 +25,10 @@ import MainLayout from '@/layouts/MainLayout.vue';
                 Quiz teilnehmen
             </Link>
             <Link
+                :href="QuestionIndexController.get()"
                 class="inline-flex items-center justify-center rounded-md border border-border px-5 py-3"
-                href="/questions/submit"
             >
-                Frage einreichen
+                Fragen einsehen & einreichen
             </Link>
         </div>
     </MainLayout>

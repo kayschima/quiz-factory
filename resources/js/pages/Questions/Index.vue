@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
-import { Pencil, Trash2 } from 'lucide-vue-next';
+import { Pencil, Plus, Trash2 } from 'lucide-vue-next';
 import { ref } from 'vue';
 import QuestionController from '@/actions/App/Http/Controllers/QuestionController';
 import { Button } from '@/components/ui/button';
@@ -59,13 +59,28 @@ const props = defineProps<{
     categories: Category[];
     filters: {
         category: string | null;
+        approved: string | null;
     };
 }>();
 
 const filterByCategory = (value: string) => {
     router.get(
         '/questions',
-        { category: value === 'all' ? null : value },
+        {
+            category: value === 'all' ? null : value,
+            approved: props.filters.approved,
+        },
+        { preserveState: true, preserveScroll: true },
+    );
+};
+
+const filterByApproved = (value: string) => {
+    router.get(
+        '/questions',
+        {
+            category: props.filters.category,
+            approved: value,
+        },
         { preserveState: true, preserveScroll: true },
     );
 };
@@ -97,16 +112,38 @@ const deleteQuestion = () => {
                 <div class="flex items-center justify-between">
                     <div>
                         <h1 class="text-3xl font-bold tracking-tight">
-                            Zugelassene Fragen
+                            {{
+                                props.filters.approved === 'true'
+                                    ? 'Zugelassene Fragen'
+                                    : props.filters.approved === 'false'
+                                      ? 'Ausstehende Fragen'
+                                      : 'Alle Fragen'
+                            }}
                         </h1>
                         <p class="text-muted-foreground">
-                            Hier sind alle bereits geprüften und zugelassenen
-                            Fragen aufgelistet.
+                            {{
+                                props.filters.approved === 'true'
+                                    ? 'Hier sind alle bereits geprüften und zugelassenen Fragen aufgelistet.'
+                                    : props.filters.approved === 'false'
+                                      ? 'Hier sind alle noch nicht geprüften Fragen aufgelistet.'
+                                      : 'Hier sind alle Fragen aufgelistet.'
+                            }}
                         </p>
                     </div>
-                    <Button as-child variant="outline">
-                        <Link :href="QuestionController.create()">Zurück</Link>
-                    </Button>
+                    <div class="flex items-center gap-2">
+                        <Button as-child variant="outline">
+                            <Link href="/">Zurück</Link>
+                        </Button>
+                        <Button as-child>
+                            <Link
+                                :href="QuestionController.create()"
+                                class="flex items-center gap-2"
+                            >
+                                <Plus class="h-4 w-4" />
+                                Frage hinzufügen
+                            </Link>
+                        </Button>
+                    </div>
                 </div>
 
                 <div class="flex items-center gap-4">
@@ -129,6 +166,26 @@ const deleteQuestion = () => {
                                 >
                                     {{ category.name }}
                                 </SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+
+                    <div class="w-full max-w-xs">
+                        <Select
+                            :model-value="props.filters.approved || 'all'"
+                            @update:model-value="filterByApproved"
+                        >
+                            <SelectTrigger>
+                                <SelectValue placeholder="Status filtern" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="all"
+                                    >Alle (Zugelassen & Ausstehend)</SelectItem
+                                >
+                                <SelectItem value="true">Zugelassen</SelectItem>
+                                <SelectItem value="false"
+                                    >Ausstehend</SelectItem
+                                >
                             </SelectContent>
                         </Select>
                     </div>

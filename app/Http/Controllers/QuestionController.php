@@ -37,7 +37,7 @@ class QuestionController extends Controller
             }
         });
 
-        return redirect()->back()->with('success', 'Vielen Dank! Deine Frage wurde eingereicht und wird nun geprüft.');
+        return redirect()->route('questions.index')->with('success', 'Vielen Dank! Deine Frage wurde eingereicht und wird nun geprüft.');
     }
 
     /**
@@ -87,7 +87,7 @@ class QuestionController extends Controller
             }
         });
 
-        return redirect()->back()->with('success', 'Frage erfolgreich aktualisiert.');
+        return redirect()->route('questions.index')->with('success', 'Frage erfolgreich aktualisiert.');
     }
 
     /**
