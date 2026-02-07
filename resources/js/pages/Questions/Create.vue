@@ -2,16 +2,29 @@
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import MainLayout from '@/layouts/MainLayout.vue';
 
-defineProps<{
+const props = defineProps<{
     categories: Array<{ id: number; name: string }>;
     difficulties: Array<{ id: number; name: string }>;
+    question?: {
+        id: number;
+        text: string;
+        category_id: number;
+        difficulty_id: number;
+        approved: boolean;
+        answers: Array<{ id?: number; text: string; is_correct: boolean }>;
+    };
 }>();
 
 const form = useForm({
-    text: '',
-    category_id: '',
-    difficulty_id: '',
-    answers: [
+    text: props.question?.text ?? '',
+    category_id: props.question?.category_id ?? '',
+    difficulty_id: props.question?.difficulty_id ?? '',
+    approved: props.question?.approved ?? false,
+    answers: props.question?.answers.map((a) => ({
+        id: a.id,
+        text: a.text,
+        is_correct: !!a.is_correct,
+    })) ?? [
         { text: '', is_correct: false },
         { text: '', is_correct: false },
         { text: '', is_correct: false },
@@ -20,15 +33,25 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post('/questions');
+    if (props.question) {
+        form.put(`/questions/${props.question.id}`);
+    } else {
+        form.post('/questions');
+    }
 };
 </script>
 
 <template>
-    <Head title="Frage einreichen" />
+    <Head :title="question ? 'Frage bearbeiten' : 'Frage einreichen'" />
     <MainLayout>
         <div class="flex items-center justify-between">
-            <h1 class="text-2xl font-semibold">Neue Quizfrage einreichen</h1>
+            <h1 class="text-2xl font-semibold">
+                {{
+                    question
+                        ? 'Quizfrage bearbeiten'
+                        : 'Neue Quizfrage einreichen'
+                }}
+            </h1>
             <Link class="text-sm underline" href="/">Zurück</Link>
         </div>
 
@@ -105,6 +128,13 @@ const submit = () => {
                 </div>
             </div>
 
+            <div v-if="$page.props.auth?.user">
+                <label class="flex items-center gap-2 text-sm">
+                    <input v-model="form.approved" type="checkbox" />
+                    Frage direkt freigeben (Approved)
+                </label>
+            </div>
+
             <fieldset class="space-y-3">
                 <legend class="text-sm font-medium">
                     Antworten (mind. 1, max. 3 richtig)
@@ -163,6 +193,7 @@ const submit = () => {
                     >Abbrechen</Link
                 >
                 <Link
+                    v-if="!question"
                     class="inline-flex items-center justify-center rounded-md border border-border px-5 py-3"
                     href="/questions"
                 >

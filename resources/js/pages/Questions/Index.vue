@@ -1,7 +1,17 @@
 <script lang="ts" setup>
-import { Head, Link, router } from '@inertiajs/vue3';
+import { Head, Link, router, useForm } from '@inertiajs/vue3';
+import { Pencil, Trash2 } from 'lucide-vue-next';
+import { ref } from 'vue';
 import QuestionController from '@/actions/App/Http/Controllers/QuestionController';
 import { Button } from '@/components/ui/button';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from '@/components/ui/dialog';
 import {
     Select,
     SelectContent,
@@ -59,6 +69,23 @@ const filterByCategory = (value: string) => {
         { preserveState: true, preserveScroll: true },
     );
 };
+
+const questionToDelete = ref<Question | null>(null);
+const deleteForm = useForm({});
+
+const confirmDelete = (question: Question) => {
+    questionToDelete.value = question;
+};
+
+const deleteQuestion = () => {
+    if (questionToDelete.value) {
+        deleteForm.delete(`/questions/${questionToDelete.value.id}`, {
+            onSuccess: () => {
+                questionToDelete.value = null;
+            },
+        });
+    }
+};
 </script>
 
 <template>
@@ -112,8 +139,13 @@ const filterByCategory = (value: string) => {
                         <TableHeader>
                             <TableRow>
                                 <TableHead class="w-[100px]">ID</TableHead>
-                                <TableHead>Frage</TableHead>
+                                <TableHead class="min-w-[200px]"
+                                    >Frage</TableHead
+                                >
                                 <TableHead>Kategorie</TableHead>
+                                <TableHead class="text-right"
+                                    >Aktionen</TableHead
+                                >
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -124,13 +156,45 @@ const filterByCategory = (value: string) => {
                                 <TableCell class="font-medium"
                                     >#{{ question.id }}</TableCell
                                 >
-                                <TableCell>{{ question.text }}</TableCell>
+                                <TableCell
+                                    class="wrap-break-word whitespace-normal"
+                                >
+                                    {{ question.text }}
+                                </TableCell>
                                 <TableCell>{{
                                     question.category.name
                                 }}</TableCell>
+                                <TableCell class="text-right">
+                                    <div class="flex justify-end gap-2">
+                                        <Button
+                                            as-child
+                                            size="icon"
+                                            variant="outline"
+                                        >
+                                            <Link
+                                                :href="`/questions/${question.id}/edit`"
+                                                title="Bearbeiten"
+                                            >
+                                                <Pencil class="h-4 w-4" />
+                                                <span class="sr-only"
+                                                    >Bearbeiten</span
+                                                >
+                                            </Link>
+                                        </Button>
+                                        <Button
+                                            size="icon"
+                                            title="Löschen"
+                                            variant="destructive"
+                                            @click="confirmDelete(question)"
+                                        >
+                                            <Trash2 class="h-4 w-4" />
+                                            <span class="sr-only">Löschen</span>
+                                        </Button>
+                                    </div>
+                                </TableCell>
                             </TableRow>
                             <TableRow v-if="questions.data.length === 0">
-                                <TableCell class="h-24 text-center" colspan="3">
+                                <TableCell class="h-24 text-center" colspan="4">
                                     Keine Fragen gefunden.
                                 </TableCell>
                             </TableRow>
@@ -169,5 +233,32 @@ const filterByCategory = (value: string) => {
                 </div>
             </div>
         </div>
+
+        <Dialog
+            :open="!!questionToDelete"
+            @update:open="(val: boolean) => !val && (questionToDelete = null)"
+        >
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>Frage löschen?</DialogTitle>
+                    <DialogDescription>
+                        Bist du sicher, dass du diese Frage unwiderruflich
+                        löschen möchtest?
+                    </DialogDescription>
+                </DialogHeader>
+                <DialogFooter>
+                    <Button variant="outline" @click="questionToDelete = null">
+                        Abbrechen
+                    </Button>
+                    <Button
+                        :disabled="deleteForm.processing"
+                        variant="destructive"
+                        @click="deleteQuestion"
+                    >
+                        Löschen
+                    </Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
     </MainLayout>
 </template>
