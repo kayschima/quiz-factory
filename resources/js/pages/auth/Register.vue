@@ -6,16 +6,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
-import AuthBase from '@/layouts/AuthLayout.vue';
+import MainLayout from '@/layouts/MainLayout.vue';
 import { login } from '@/routes';
 import { store } from '@/routes/register';
 </script>
 
 <template>
-    <AuthBase
-        description="Geben Sie unten Ihre Daten ein, um Ihr Konto zu erstellen"
-        title="Konto erstellen"
-    >
+    <MainLayout>
         <Head title="Registrieren" />
 
         <Form
@@ -106,5 +103,5 @@ import { store } from '@/routes/register';
                 >
             </div>
         </Form>
-    </AuthBase>
+    </MainLayout>
 </template>

@@ -7,7 +7,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
-import AuthBase from '@/layouts/AuthLayout.vue';
+import MainLayout from '@/layouts/MainLayout.vue';
 import { register } from '@/routes';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
@@ -20,12 +20,8 @@ defineProps<{
 </script>
 
 <template>
-    <AuthBase
-        description="Geben Sie unten Ihre E-Mail-Adresse und Ihr Passwort ein, um sich anzumelden"
-        title="In Ihr Konto einloggen"
-    >
+    <MainLayout>
         <Head title="Einloggen" />
-
         <div
             v-if="status"
             class="mb-4 text-center text-sm font-medium text-green-600"
@@ -108,5 +104,5 @@ defineProps<{
                 >
             </div>
         </Form>
-    </AuthBase>
+    </MainLayout>
 </template>
