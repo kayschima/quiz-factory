@@ -16,7 +16,7 @@ const user = computed(() => page.props.auth?.user);
             class="flex w-full items-center justify-between border-b bg-card px-6 py-4"
         >
             <Link class="text-xl font-bold tracking-tight" href="/">
-                St. Pauli Quiz
+                {{ page.props.name }}
             </Link>
 
             <nav class="flex items-center gap-4">
@@ -72,7 +72,7 @@ const user = computed(() => page.props.auth?.user);
             <div
                 class="mx-auto flex w-full max-w-4xl flex-wrap items-center justify-between gap-3"
             >
-                <span>(c) St. Pauli Quiz</span>
+                <span>(c) {{ page.props.name }}</span>
                 <div class="flex items-center gap-4">
                     <Link class="hover:text-foreground" href="/datenschutz">
                         Datenschutzerklärung
