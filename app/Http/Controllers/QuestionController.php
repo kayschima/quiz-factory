@@ -46,7 +46,7 @@ class QuestionController extends Controller
      */
     public function create(): Response
     {
-        abort_if(! auth()->user()->can('create questions'), 403, 'Du kannst keine Fragen erstellen.');
+        abort_if(! auth()->user()->can('create questions'), 403);
 
         return Inertia::render('Questions/Create', [
             'categories' => Category::all(),
@@ -59,7 +59,7 @@ class QuestionController extends Controller
      */
     public function edit(Question $question): Response
     {
-        abort_if(! auth()->user()->can('edit questions'), 403, 'Du kannst keine Fragen bearbeiten.');
+        abort_if(! auth()->user()->can('edit questions'), 403);
 
         return Inertia::render('Questions/Create', [
             'question' => $question->load('answers'),
@@ -73,7 +73,7 @@ class QuestionController extends Controller
      */
     public function update(UpdateQuestionRequest $request, Question $question): RedirectResponse
     {
-        abort_if(! auth()->user()->can('edit questions'), 403, 'Du kannst keine Fragen bearbeiten.');
+        abort_if(! auth()->user()->can('edit questions'), 403);
 
         DB::transaction(function () use ($request, $question) {
             $question->update([
@@ -102,7 +102,7 @@ class QuestionController extends Controller
      */
     public function destroy(Question $question): RedirectResponse
     {
-        abort_if(! auth()->user()->can('delete questions'), 403, 'Du kannst keine Fragen löschen.');
+        abort_if(! auth()->user()->can('delete questions'), 403);
         $question->delete();
 
         return redirect()->back()->with('success', 'Frage erfolgreich gelöscht.');
