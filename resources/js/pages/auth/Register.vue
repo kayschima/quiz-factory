@@ -18,7 +18,7 @@ import { store } from '@/routes/register';
         <Form
             v-slot="{ errors, processing }"
             :reset-on-success="['password', 'password_confirmation']"
-            class="flex flex-col gap-6"
+            class="mx-auto flex w-full flex-col gap-6 md:w-1/2"
             v-bind="store.form()"
         >
             <div class="grid gap-6">
