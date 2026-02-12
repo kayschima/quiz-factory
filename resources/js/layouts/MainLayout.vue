@@ -80,7 +80,7 @@ const user = computed(() => page.props.auth?.user);
             </nav>
         </header>
 
-        <main class="mt-12 flex-1 px-6 py-10">
+        <main class="mt-16 flex-1 px-6 py-10">
             <div class="mx-auto w-full max-w-4xl text-center">
                 <slot />
             </div>
