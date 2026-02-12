@@ -34,10 +34,16 @@ interface Category {
     name: string;
 }
 
+interface Difficulty {
+    id: number;
+    name: string;
+}
+
 interface Question {
     id: number;
     text: string;
     category: Category;
+    difficulty: Difficulty;
 }
 
 interface PaginationLink {
@@ -57,8 +63,10 @@ interface PaginatedQuestions {
 const props = defineProps<{
     questions: PaginatedQuestions;
     categories: Category[];
+    difficulties: Difficulty[];
     filters: {
         category: string | null;
+        difficulty: string | null;
         approved: string | null;
     };
 }>();
@@ -68,6 +76,19 @@ const filterByCategory = (value: string) => {
         '/questions',
         {
             category: value === 'all' ? null : value,
+            difficulty: props.filters.difficulty,
+            approved: props.filters.approved,
+        },
+        { preserveState: true, preserveScroll: true },
+    );
+};
+
+const filterByDifficulty = (value: string) => {
+    router.get(
+        '/questions',
+        {
+            category: props.filters.category,
+            difficulty: value === 'all' ? null : value,
             approved: props.filters.approved,
         },
         { preserveState: true, preserveScroll: true },
@@ -79,6 +100,7 @@ const filterByApproved = (value: string) => {
         '/questions',
         {
             category: props.filters.category,
+            difficulty: props.filters.difficulty,
             approved: value,
         },
         { preserveState: true, preserveScroll: true },
@@ -107,13 +129,15 @@ const permissions = (page.props.auth?.permissions as string[]) ?? [];
 
 onMounted(() => {
     if (
-        props.filters.approved === 'false' &&
+        (props.filters.approved === 'false' ||
+            props.filters.approved === 'all') &&
         !permissions.includes('edit questions')
     ) {
         router.get(
             '/questions',
             {
                 category: props.filters.category,
+                difficulty: props.filters.difficulty,
                 approved: null,
             },
             { preserveState: true, preserveScroll: true },
@@ -191,7 +215,32 @@ onMounted(() => {
 
                     <div class="w-full max-w-xs">
                         <Select
-                            :disabled="!permissions.includes('edit questions')"
+                            :model-value="props.filters.difficulty || 'all'"
+                            @update:model-value="filterByDifficulty"
+                        >
+                            <SelectTrigger>
+                                <SelectValue
+                                    placeholder="Schwierigkeit filtern"
+                                />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="all"
+                                    >Alle Schwierigkeitsgrade</SelectItem
+                                >
+                                <SelectItem
+                                    v-for="difficulty in difficulties"
+                                    :key="difficulty.id"
+                                    :value="difficulty.id.toString()"
+                                >
+                                    {{ difficulty.name }}
+                                </SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+
+                    <div class="w-full max-w-xs">
+                        <Select
+                            v-if="permissions.includes('edit questions')"
                             :model-value="props.filters.approved || 'all'"
                             @update:model-value="filterByApproved"
                         >
@@ -220,6 +269,7 @@ onMounted(() => {
                                     >Frage</TableHead
                                 >
                                 <TableHead>Kategorie</TableHead>
+                                <TableHead>Schwierigkeit</TableHead>
                                 <TableHead class="text-right"
                                     >Aktionen</TableHead
                                 >
@@ -241,9 +291,17 @@ onMounted(() => {
                                 <TableCell>{{
                                     question.category.name
                                 }}</TableCell>
+                                <TableCell>{{
+                                    question.difficulty.name
+                                }}</TableCell>
                                 <TableCell class="text-right">
                                     <div class="flex justify-end gap-2">
                                         <Button
+                                            v-if="
+                                                permissions.includes(
+                                                    'edit questions',
+                                                )
+                                            "
                                             as-child
                                             size="icon"
                                             variant="outline"
@@ -259,6 +317,11 @@ onMounted(() => {
                                             </Link>
                                         </Button>
                                         <Button
+                                            v-if="
+                                                permissions.includes(
+                                                    'delete questions',
+                                                )
+                                            "
                                             size="icon"
                                             title="Löschen"
                                             variant="destructive"
@@ -271,7 +334,7 @@ onMounted(() => {
                                 </TableCell>
                             </TableRow>
                             <TableRow v-if="questions.data.length === 0">
-                                <TableCell class="h-24 text-center" colspan="4">
+                                <TableCell class="h-24 text-center" colspan="5">
                                     Keine Fragen gefunden.
                                 </TableCell>
                             </TableRow>

@@ -83,3 +83,31 @@ test('it can filter questions by category', function () {
         ->where('questions.data', fn ($data) => ! collect($data)->contains('text', 'Filter Test Question 2'))
     );
 });
+
+test('it can filter questions by difficulty', function () {
+    $category = Category::create(['name' => 'General']);
+    $difficulty1 = Difficulty::create(['name' => 'Easy', 'level' => 1]);
+    $difficulty2 = Difficulty::create(['name' => 'Hard', 'level' => 3]);
+
+    Question::create([
+        'approved' => true,
+        'category_id' => $category->id,
+        'difficulty_id' => $difficulty1->id,
+        'text' => 'Easy Question',
+    ]);
+    Question::create([
+        'approved' => true,
+        'category_id' => $category->id,
+        'difficulty_id' => $difficulty2->id,
+        'text' => 'Hard Question',
+    ]);
+
+    $response = $this->get(route('questions.index', ['difficulty' => $difficulty1->id]));
+
+    $response->assertStatus(200);
+    $response->assertInertia(fn ($page) => $page
+        ->component('Questions/Index')
+        ->where('questions.data', fn ($data) => collect($data)->contains('text', 'Easy Question'))
+        ->where('questions.data', fn ($data) => ! collect($data)->contains('text', 'Hard Question'))
+    );
+});
