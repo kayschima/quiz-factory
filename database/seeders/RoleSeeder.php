@@ -19,8 +19,8 @@ class RoleSeeder extends Seeder
         $superadmin = Role::create(['name' => 'superadmin']);
 
         Permission::create(['name' => 'show questions'])->assignRole([$user, $editor, $admin, $superadmin]);
-        Permission::create(['name' => 'create question'])->assignRole([$user, $editor, $admin, $superadmin]);
-        Permission::create(['name' => 'edit question'])->assignRole([$editor, $admin, $superadmin]);
-        Permission::create(['name' => 'delete question'])->assignRole([$editor, $admin, $superadmin]);
+        Permission::create(['name' => 'create questions'])->assignRole([$user, $editor, $admin, $superadmin]);
+        Permission::create(['name' => 'edit questions'])->assignRole([$editor, $admin, $superadmin]);
+        Permission::create(['name' => 'delete questions'])->assignRole([$editor, $admin, $superadmin]);
     }
 }

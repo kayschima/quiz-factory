@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { Head, Link, router, useForm } from '@inertiajs/vue3';
+import { Head, Link, router, useForm, usePage } from '@inertiajs/vue3';
 import { Pencil, Plus, Trash2 } from 'lucide-vue-next';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import QuestionController from '@/actions/App/Http/Controllers/QuestionController';
 import { Button } from '@/components/ui/button';
 import {
@@ -101,6 +101,25 @@ const deleteQuestion = () => {
         });
     }
 };
+
+const page = usePage();
+const permissions = (page.props.auth?.permissions as string[]) ?? [];
+
+onMounted(() => {
+    if (
+        props.filters.approved === 'false' &&
+        !permissions.includes('edit questions')
+    ) {
+        router.get(
+            '/questions',
+            {
+                category: props.filters.category,
+                approved: null,
+            },
+            { preserveState: true, preserveScroll: true },
+        );
+    }
+});
 </script>
 
 <template>
@@ -172,6 +191,7 @@ const deleteQuestion = () => {
 
                     <div class="w-full max-w-xs">
                         <Select
+                            :disabled="!permissions.includes('edit questions')"
                             :model-value="props.filters.approved || 'all'"
                             @update:model-value="filterByApproved"
                         >

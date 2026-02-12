@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
 import MainLayout from '@/layouts/MainLayout.vue';
 
 const props = defineProps<{
@@ -39,6 +39,9 @@ const submit = () => {
         form.post('/questions');
     }
 };
+
+const page = usePage();
+const permissions = (page.props.auth?.permissions as string[]) ?? [];
 </script>
 
 <template>
@@ -128,10 +131,15 @@ const submit = () => {
                 </div>
             </div>
 
-            <div v-if="$page.props.auth?.user">
+            <div
+                v-if="
+                    $page.props.auth?.user &&
+                    permissions.includes('edit questions')
+                "
+            >
                 <label class="flex items-center gap-2 text-sm">
                     <input v-model="form.approved" type="checkbox" />
-                    Frage direkt freigeben (Approved)
+                    Frage freigeben (Approved)
                 </label>
             </div>
 
