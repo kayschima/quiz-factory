@@ -1,19 +1,12 @@
-<script lang="ts" setup>
-import { Head, Link } from '@inertiajs/vue3';
+﻿<script lang="ts" setup>
+import { Head } from '@inertiajs/vue3';
 import { computed, onMounted, ref } from 'vue';
 import MainLayout from '@/layouts/MainLayout.vue';
-
-interface Answer {
-    id: number;
-    text: string;
-    is_correct: boolean;
-}
-
-interface Question {
-    id: number;
-    text: string;
-    answers: Answer[];
-}
+import QuizCountdown from '@/pages/Quiz/Partials/QuizCountdown.vue';
+import QuizFinished from '@/pages/Quiz/Partials/QuizFinished.vue';
+import QuizLoading from '@/pages/Quiz/Partials/QuizLoading.vue';
+import QuizPlaying from '@/pages/Quiz/Partials/QuizPlaying.vue';
+import type { Question } from '@/pages/Quiz/Partials/quizTypes';
 
 const questions = ref<Question[]>([]);
 const currentQuestionIndex = ref(0);
@@ -55,7 +48,7 @@ const startCountdown = () => {
 };
 
 const currentQuestion = computed(
-    () => questions.value[currentQuestionIndex.value],
+    () => questions.value[currentQuestionIndex.value] ?? null,
 );
 
 const toggleAnswer = (answerId: number) => {
@@ -139,158 +132,32 @@ const formatTime = (ms: number | null) => {
     <Head title="Quiz" />
     <MainLayout>
         <!-- Loading -->
-        <div v-if="gameState === 'loading'" class="text-xl font-medium">
-            Lade Fragen...
-        </div>
+        <QuizLoading v-if="gameState === 'loading'" />
 
         <!-- Countdown -->
-        <div v-if="gameState === 'countdown'" class="text-center">
-            <div
-                class="mb-4 text-sm tracking-widest text-muted-foreground uppercase"
-            >
-                Quiz startet in
-            </div>
-            <div class="animate-pulse text-8xl font-bold">{{ countdown }}</div>
-        </div>
+        <QuizCountdown v-if="gameState === 'countdown'" :countdown="countdown" />
 
         <!-- Playing -->
-        <div v-if="gameState === 'playing'" class="w-full max-w-4xl space-y-8">
-            <div class="flex items-end justify-between">
-                <div class="space-y-1">
-                    <div class="text-sm text-muted-foreground">
-                        Frage {{ currentQuestionIndex + 1 }} von
-                        {{ questions.length }}
-                    </div>
-                    <h2 class="text-2xl leading-tight font-semibold">
-                        {{ currentQuestion.text }}
-                    </h2>
-                </div>
-            </div>
-
-            <div class="grid gap-3">
-                <button
-                    v-for="answer in currentQuestion.answers"
-                    :key="answer.id"
-                    :class="[
-                        isAnswerSelected(answer.id)
-                            ? 'border-primary bg-primary text-primary-foreground'
-                            : 'border-border bg-background hover:border-foreground/50',
-                    ]"
-                    class="w-full rounded-lg border p-4 text-left transition-all"
-                    @click="toggleAnswer(answer.id)"
-                >
-                    {{ answer.text }}
-                </button>
-            </div>
-
-            <div class="flex items-center justify-between pt-4">
-                <button
-                    class="rounded-md bg-primary px-6 py-2 font-medium text-primary-foreground"
-                    @click="finishQuiz"
-                >
-                    Abbrechen
-                </button>
-                <button
-                    class="rounded-md bg-primary px-6 py-2 font-medium text-primary-foreground"
-                    @click="nextQuestion"
-                >
-                    {{
-                        currentQuestionIndex === questions.length - 1
-                            ? 'Auswerten'
-                            : 'Weiter'
-                    }}
-                </button>
-            </div>
-        </div>
+        <QuizPlaying
+            v-if="gameState === 'playing' && currentQuestion"
+            :question="currentQuestion"
+            :question-index="currentQuestionIndex"
+            :total-questions="questions.length"
+            :is-answer-selected="isAnswerSelected"
+            @toggle-answer="toggleAnswer"
+            @finish-quiz="finishQuiz"
+            @next-question="nextQuestion"
+        />
 
         <!-- Finished -->
-        <div
+        <QuizFinished
             v-if="gameState === 'finished'"
-            class="w-full max-w-4xl space-y-8 py-10"
-        >
-            <div class="space-y-2 text-center">
-                <h1 class="text-4xl font-bold">Quiz beendet!</h1>
-                <p class="text-xl text-muted-foreground">
-                    Du hast
-                    <span class="font-bold text-foreground">{{ score }}</span>
-                    von {{ questions.length }} Fragen richtig beantwortet.
-                </p>
-                <p
-                    v-if="elapsedTime !== null"
-                    class="text-sm text-muted-foreground"
-                >
-                    Benötigte Zeit:
-                    <span class="font-medium text-foreground">{{
-                        formatTime(elapsedTime)
-                    }}</span>
-                </p>
-            </div>
-
-            <div class="space-y-6">
-                <div
-                    v-for="(q, idx) in questions"
-                    :key="q.id"
-                    class="space-y-4 rounded-lg border border-border p-6"
-                >
-                    <div class="flex gap-3">
-                        <span class="font-bold">{{ idx + 1 }}.</span>
-                        <h3 class="font-medium">{{ q.text }}</h3>
-                    </div>
-                    <div class="grid grid-cols-1 gap-2 pl-7 sm:grid-cols-2">
-                        <div
-                            v-for="a in q.answers"
-                            :key="a.id"
-                            :class="[
-                                a.is_correct && isAnswerSelected(a.id, idx)
-                                    ? 'border-green-500 bg-green-100 text-green-900 dark:bg-green-900/30 dark:text-green-400'
-                                    : '',
-                                !a.is_correct && isAnswerSelected(a.id, idx)
-                                    ? 'border-destructive bg-destructive/10 text-destructive'
-                                    : '',
-                                a.is_correct && !isAnswerSelected(a.id, idx)
-                                    ? 'border-yellow-500 bg-yellow-100 text-yellow-900 dark:bg-yellow-900/30 dark:text-yellow-400'
-                                    : '',
-                                !a.is_correct && !isAnswerSelected(a.id, idx)
-                                    ? 'border-transparent opacity-60'
-                                    : '',
-                            ]"
-                            class="rounded border p-2 text-sm"
-                        >
-                            {{ a.text }}
-                            <span
-                                v-if="
-                                    a.is_correct && isAnswerSelected(a.id, idx)
-                                "
-                                class="ml-1"
-                                >✓</span
-                            >
-                            <span
-                                v-if="
-                                    !a.is_correct && isAnswerSelected(a.id, idx)
-                                "
-                                class="ml-1"
-                                >✗</span
-                            >
-                            <span
-                                v-if="
-                                    a.is_correct && !isAnswerSelected(a.id, idx)
-                                "
-                                class="ml-1"
-                                >!</span
-                            >
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pt-6 text-center">
-                <Link
-                    class="inline-flex items-center justify-center rounded-md bg-primary px-8 py-3 font-medium text-primary-foreground"
-                    href="/"
-                >
-                    Quiz beenden
-                </Link>
-            </div>
-        </div>
+            :questions="questions"
+            :score="score"
+            :elapsed-time="elapsedTime"
+            :is-answer-selected="isAnswerSelected"
+            :format-time="formatTime"
+        />
     </MainLayout>
 </template>
+
