@@ -21,7 +21,9 @@ const user = computed(() => page.props.auth?.user);
 
             <nav class="flex items-center gap-4">
                 <template v-if="user">
-                    <span class="hidden text-sm text-muted-foreground sm:inline">
+                    <span
+                        class="hidden text-sm text-muted-foreground sm:inline"
+                    >
                         Angemeldet als {{ user.name }}
                     </span>
                     <Button as-child size="sm" variant="ghost">
@@ -64,15 +66,21 @@ const user = computed(() => page.props.auth?.user);
                 <slot />
             </div>
         </main>
-
-        <footer class="border-t bg-card px-6 py-4 text-sm text-muted-foreground">
+        <footer
+            class="border-t bg-card px-6 py-4 text-sm text-muted-foreground"
+        >
             <div
                 class="mx-auto flex w-full max-w-4xl flex-wrap items-center justify-between gap-3"
             >
-                <span>© St. Pauli Quiz</span>
-                <Link class="hover:text-foreground" href="/datenschutz">
-                    Datenschutzerklärung
-                </Link>
+                <span>(c) St. Pauli Quiz</span>
+                <div class="flex items-center gap-4">
+                    <Link class="hover:text-foreground" href="/datenschutz">
+                        Datenschutzerklärung
+                    </Link>
+                    <Link class="hover:text-foreground" href="/impressum">
+                        Impressum
+                    </Link>
+                </div>
             </div>
         </footer>
     </div>
