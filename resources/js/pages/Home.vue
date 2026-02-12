@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { Head, Link } from '@inertiajs/vue3';
+import QuestionIndexController from '@/actions/App/Http/Controllers/QuestionIndexController';
 import AppLogo from '@/components/AppLogo.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
-import QuestionIndexController from '@/actions/App/Http/Controllers/QuestionIndexController';
 </script>
 
 <template>
-    <Head title="{{ $page.props.name }}" />
+    <Head title="Home" />
     <MainLayout>
         <AppLogo class="mx-auto mb-6" />
         <h1 class="mb-2 text-3xl font-semibold">
