@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { Form, Head, Link, usePage } from '@inertiajs/vue3';
 import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
 import DeleteUser from '@/components/DeleteUser.vue';
@@ -7,11 +7,9 @@ import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import AppLayout from '@/layouts/AppLayout.vue';
+import MainLayout from '@/layouts/MainLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
-import { edit } from '@/routes/profile';
 import { send } from '@/routes/verification';
-import { type BreadcrumbItem } from '@/types';
 
 type Props = {
     mustVerifyEmail: boolean;
@@ -20,74 +18,68 @@ type Props = {
 
 defineProps<Props>();
 
-const breadcrumbItems: BreadcrumbItem[] = [
-    {
-        title: 'Profile settings',
-        href: edit().url,
-    },
-];
-
 const page = usePage();
 const user = page.props.auth.user;
 </script>
 
 <template>
-    <AppLayout :breadcrumbs="breadcrumbItems">
-        <Head title="Profile settings" />
+    <MainLayout>
+        <Head title="Profileinstellungen" />
 
-        <h1 class="sr-only">Profile Settings</h1>
+        <h1 class="sr-only">Profileinstellungen</h1>
 
         <SettingsLayout>
             <div class="flex flex-col space-y-6">
                 <Heading
+                    description="Aktualisieren Sie Ihren Namen und Ihre E-Mail-Adresse"
+                    title="Profilinformationen"
                     variant="small"
-                    title="Profile information"
-                    description="Update your name and email address"
                 />
 
                 <Form
-                    v-bind="ProfileController.update.form()"
-                    class="space-y-6"
                     v-slot="{ errors, processing, recentlySuccessful }"
+                    class="space-y-6"
+                    v-bind="ProfileController.update.form()"
                 >
                     <div class="grid gap-2">
                         <Label for="name">Name</Label>
                         <Input
                             id="name"
+                            :default-value="user.name"
+                            autocomplete="name"
                             class="mt-1 block w-full"
                             name="name"
-                            :default-value="user.name"
+                            placeholder="Vollständiger Name"
                             required
-                            autocomplete="name"
-                            placeholder="Full name"
                         />
-                        <InputError class="mt-2" :message="errors.name" />
+                        <InputError :message="errors.name" class="mt-2" />
                     </div>
 
                     <div class="grid gap-2">
-                        <Label for="email">Email address</Label>
+                        <Label for="email">E-Mail-Adresse</Label>
                         <Input
                             id="email"
-                            type="email"
+                            :default-value="user.email"
+                            autocomplete="username"
                             class="mt-1 block w-full"
                             name="email"
-                            :default-value="user.email"
+                            placeholder="E-Mail-Adresse"
                             required
-                            autocomplete="username"
-                            placeholder="Email address"
+                            type="email"
                         />
-                        <InputError class="mt-2" :message="errors.email" />
+                        <InputError :message="errors.email" class="mt-2" />
                     </div>
 
                     <div v-if="mustVerifyEmail && !user.email_verified_at">
                         <p class="-mt-4 text-sm text-muted-foreground">
-                            Your email address is unverified.
+                            Ihre E-Mail-Adresse ist nicht verifiziert.
                             <Link
                                 :href="send()"
                                 as="button"
                                 class="text-foreground underline decoration-border underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current!"
                             >
-                                Click here to resend the verification email.
+                                Klicken Sie hier, um die Verifizierungs-E-Mail
+                                erneut zu senden.
                             </Link>
                         </p>
 
@@ -95,8 +87,8 @@ const user = page.props.auth.user;
                             v-if="status === 'verification-link-sent'"
                             class="mt-2 text-sm font-medium text-green-600 dark:text-green-400"
                         >
-                            A new verification link has been sent to your email
-                            address.
+                            Ein neuer Verifizierungslink wurde an Ihre
+                            E-Mail-Adresse gesendet.
                         </div>
                     </div>
 
@@ -104,7 +96,7 @@ const user = page.props.auth.user;
                         <Button
                             :disabled="processing"
                             data-test="update-profile-button"
-                            >Save</Button
+                            >Speichern</Button
                         >
 
                         <Transition
@@ -117,7 +109,7 @@ const user = page.props.auth.user;
                                 v-show="recentlySuccessful"
                                 class="text-sm text-muted-foreground"
                             >
-                                Saved.
+                                Gespeichert.
                             </p>
                         </Transition>
                     </div>
@@ -126,5 +118,5 @@ const user = page.props.auth.user;
 
             <DeleteUser />
         </SettingsLayout>
-    </AppLayout>
+    </MainLayout>
 </template>

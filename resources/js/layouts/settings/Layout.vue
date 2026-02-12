@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { Link } from '@inertiajs/vue3';
 import Heading from '@/components/Heading.vue';
 import { Button } from '@/components/ui/button';
@@ -13,19 +13,19 @@ import { type NavItem } from '@/types';
 
 const sidebarNavItems: NavItem[] = [
     {
-        title: 'Profile',
+        title: 'Profil',
         href: editProfile(),
     },
     {
-        title: 'Password',
+        title: 'Passwort',
         href: editPassword(),
     },
     {
-        title: 'Two-Factor Auth',
+        title: 'Zwei-Faktor-Auth.',
         href: show(),
     },
     {
-        title: 'Appearance',
+        title: 'Darstellung',
         href: editAppearance(),
     },
 ];
@@ -36,25 +36,25 @@ const { isCurrentUrl } = useCurrentUrl();
 <template>
     <div class="px-4 py-6">
         <Heading
-            title="Settings"
-            description="Manage your profile and account settings"
+            description="Verwalten Sie Ihr Profil und Ihre Kontoeinstellungen"
+            title="Einstellungen"
         />
 
         <div class="flex flex-col lg:flex-row lg:space-x-12">
             <aside class="w-full max-w-xl lg:w-48">
                 <nav
-                    class="flex flex-col space-y-1 space-x-0"
-                    aria-label="Settings"
+                    aria-label="Einstellungen"
+                    class="flex flex-col space-y-1 space-x-0 rounded border"
                 >
                     <Button
                         v-for="item in sidebarNavItems"
                         :key="toUrl(item.href)"
-                        variant="ghost"
                         :class="[
                             'w-full justify-start',
                             { 'bg-muted': isCurrentUrl(item.href) },
                         ]"
                         as-child
+                        variant="ghost"
                     >
                         <Link :href="item.href">
                             <component :is="item.icon" class="h-4 w-4" />

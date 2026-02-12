@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { Form, Head } from '@inertiajs/vue3';
 import { ShieldBan, ShieldCheck } from 'lucide-vue-next';
 import { onUnmounted, ref } from 'vue';
@@ -8,10 +8,9 @@ import TwoFactorSetupModal from '@/components/TwoFactorSetupModal.vue';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useTwoFactorAuth } from '@/composables/useTwoFactorAuth';
-import AppLayout from '@/layouts/AppLayout.vue';
+import MainLayout from '@/layouts/MainLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
-import { disable, enable, show } from '@/routes/two-factor';
-import type { BreadcrumbItem } from '@/types';
+import { disable, enable } from '@/routes/two-factor';
 
 type Props = {
     requiresConfirmation?: boolean;
@@ -23,13 +22,6 @@ withDefaults(defineProps<Props>(), {
     twoFactorEnabled: false,
 });
 
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Two-Factor Authentication',
-        href: show.url(),
-    },
-];
-
 const { hasSetupData, clearTwoFactorAuthData } = useTwoFactorAuth();
 const showSetupModal = ref<boolean>(false);
 
@@ -39,30 +31,30 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <AppLayout :breadcrumbs="breadcrumbs">
-        <Head title="Two-Factor Authentication" />
+    <MainLayout>
+        <Head title="Zwei-Faktor-Authentisierung" />
 
-        <h1 class="sr-only">Two-Factor Authentication Settings</h1>
+        <h1 class="sr-only">Zwei-Faktor-Authentisierungseinstellungen</h1>
 
         <SettingsLayout>
             <div class="space-y-6">
                 <Heading
+                    description="Verwalten Sie Ihre Zwei-Faktor-Authentisierungseinstellungen"
+                    title="Zwei-Faktor-Authentisierung"
                     variant="small"
-                    title="Two-Factor Authentication"
-                    description="Manage your two-factor authentication settings"
                 />
 
                 <div
                     v-if="!twoFactorEnabled"
                     class="flex flex-col items-start justify-start space-y-4"
                 >
-                    <Badge variant="destructive">Disabled</Badge>
+                    <Badge variant="destructive">Deaktiviert</Badge>
 
                     <p class="text-muted-foreground">
-                        When you enable two-factor authentication, you will be
-                        prompted for a secure pin during login. This pin can be
-                        retrieved from a TOTP-supported application on your
-                        phone.
+                        Wenn Sie die Zwei-Faktor-Authentisierung aktivieren,
+                        werden Sie während des Logins nach einer sicheren PIN
+                        gefragt. Diese PIN kann über eine TOTP-unterstützte
+                        Anwendung auf Ihrem Telefon abgerufen werden.
                     </p>
 
                     <div>
@@ -70,16 +62,16 @@ onUnmounted(() => {
                             v-if="hasSetupData"
                             @click="showSetupModal = true"
                         >
-                            <ShieldCheck />Continue Setup
+                            <ShieldCheck />Einrichtung fortsetzen
                         </Button>
                         <Form
                             v-else
+                            #default="{ processing }"
                             v-bind="enable.form()"
                             @success="showSetupModal = true"
-                            #default="{ processing }"
                         >
-                            <Button type="submit" :disabled="processing">
-                                <ShieldCheck />Enable 2FA</Button
+                            <Button :disabled="processing" type="submit">
+                                <ShieldCheck />2FA aktivieren</Button
                             ></Form
                         >
                     </div>
@@ -89,26 +81,27 @@ onUnmounted(() => {
                     v-else
                     class="flex flex-col items-start justify-start space-y-4"
                 >
-                    <Badge variant="default">Enabled</Badge>
+                    <Badge variant="default">Aktiviert</Badge>
 
                     <p class="text-muted-foreground">
-                        With two-factor authentication enabled, you will be
-                        prompted for a secure, random pin during login, which
-                        you can retrieve from the TOTP-supported application on
-                        your phone.
+                        Wenn die Zwei-Faktor-Authentisierung aktiviert ist,
+                        werden Sie während des Logins nach einer sicheren,
+                        zufälligen PIN gefragt, die Sie über eine
+                        TOTP-unterstützte Anwendung auf Ihrem Telefon abrufen
+                        können.
                     </p>
 
                     <TwoFactorRecoveryCodes />
 
                     <div class="relative inline">
-                        <Form v-bind="disable.form()" #default="{ processing }">
+                        <Form #default="{ processing }" v-bind="disable.form()">
                             <Button
-                                variant="destructive"
-                                type="submit"
                                 :disabled="processing"
+                                type="submit"
+                                variant="destructive"
                             >
                                 <ShieldBan />
-                                Disable 2FA
+                                2FA deaktivieren
                             </Button>
                         </Form>
                     </div>
@@ -121,5 +114,5 @@ onUnmounted(() => {
                 />
             </div>
         </SettingsLayout>
-    </AppLayout>
+    </MainLayout>
 </template>

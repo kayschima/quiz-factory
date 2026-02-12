@@ -2,6 +2,7 @@
 import { Link, usePage } from '@inertiajs/vue3';
 import { LogIn, LogOut, UserPlus } from 'lucide-vue-next';
 import { computed } from 'vue';
+import settings from '@/actions/App/Http/Controllers/Settings';
 import { Button } from '@/components/ui/button';
 import { Toast } from '@/components/ui/toast';
 import { login, logout, register } from '@/routes';
@@ -13,7 +14,7 @@ const user = computed(() => page.props.auth?.user);
 <template>
     <div class="flex min-h-dvh flex-col bg-background text-foreground">
         <header
-            class="flex w-full items-center justify-between border-b bg-card px-6 py-4"
+            class="fixed flex w-full items-center justify-between border-b bg-card px-6 py-4"
         >
             <Link class="text-xl font-bold tracking-tight" href="/">
                 {{ page.props.name }}
@@ -21,22 +22,40 @@ const user = computed(() => page.props.auth?.user);
 
             <nav class="flex items-center gap-4">
                 <template v-if="user">
-                    <span
-                        class="hidden text-sm text-muted-foreground sm:inline"
+                    <div
+                        class="grid grid-cols-1 items-center gap-1 lg:grid-cols-2"
                     >
-                        Angemeldet als {{ user.name }}
-                    </span>
-                    <Button as-child size="sm" variant="ghost">
-                        <Link
-                            :href="logout.url()"
-                            as="button"
-                            class="flex items-center gap-2"
-                            method="post"
+                        <Button
+                            as-child
+                            class="rounded border"
+                            size="sm"
+                            variant="ghost"
                         >
-                            <LogOut class="h-4 w-4" />
-                            Abmelden
-                        </Link>
-                    </Button>
+                            <Link
+                                :href="settings.ProfileController.edit()"
+                                as="button"
+                                class="flex items-center gap-2"
+                            >
+                                Angemeldet als {{ user.name }}
+                            </Link>
+                        </Button>
+                        <Button
+                            as-child
+                            class="rounded border"
+                            size="sm"
+                            variant="ghost"
+                        >
+                            <Link
+                                :href="logout.url()"
+                                as="button"
+                                class="flex items-center gap-2"
+                                method="post"
+                            >
+                                <LogOut class="h-4 w-4" />
+                                Abmelden
+                            </Link>
+                        </Button>
+                    </div>
                 </template>
                 <template v-else>
                     <Button as-child size="sm" variant="ghost">
@@ -61,7 +80,7 @@ const user = computed(() => page.props.auth?.user);
             </nav>
         </header>
 
-        <main class="flex-1 px-6 py-10">
+        <main class="mt-12 flex-1 px-6 py-10">
             <div class="mx-auto w-full max-w-4xl text-center">
                 <slot />
             </div>
@@ -72,7 +91,7 @@ const user = computed(() => page.props.auth?.user);
             <div
                 class="mx-auto flex w-full max-w-4xl flex-wrap items-center justify-between gap-3"
             >
-                <span>(c) {{ page.props.name }}</span>
+                <span>© {{ page.props.name }}</span>
                 <div class="flex items-center gap-4">
                     <Link class="hover:text-foreground" href="/datenschutz">
                         Datenschutzerklärung

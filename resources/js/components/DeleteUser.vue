@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { Form } from '@inertiajs/vue3';
 import { useTemplateRef } from 'vue';
 import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
@@ -24,60 +24,61 @@ const passwordInput = useTemplateRef('passwordInput');
 <template>
     <div class="space-y-6">
         <Heading
+            description="Löschen Sie Ihr Konto und alle zugehörigen Ressourcen"
+            title="Konto löschen"
             variant="small"
-            title="Delete account"
-            description="Delete your account and all of its resources"
         />
         <div
             class="space-y-4 rounded-lg border border-destructive/20 bg-destructive/10 p-4"
         >
             <div class="relative space-y-0.5 text-destructive">
-                <p class="font-medium">Warning</p>
+                <p class="font-medium">Warnung</p>
                 <p class="text-sm">
-                    Please proceed with caution, this cannot be undone.
+                    Bitte gehen Sie vorsichtig vor, dies kann nicht rückgängig
+                    gemacht werden.
                 </p>
             </div>
             <Dialog>
                 <DialogTrigger as-child>
-                    <Button variant="destructive" data-test="delete-user-button"
-                        >Delete account</Button
+                    <Button data-test="delete-user-button" variant="destructive"
+                        >Konto löschen</Button
                     >
                 </DialogTrigger>
                 <DialogContent>
                     <Form
-                        v-bind="ProfileController.destroy.form()"
-                        reset-on-success
-                        @error="() => passwordInput?.$el?.focus()"
+                        v-slot="{ errors, processing, reset, clearErrors }"
                         :options="{
                             preserveScroll: true,
                         }"
                         class="space-y-6"
-                        v-slot="{ errors, processing, reset, clearErrors }"
+                        reset-on-success
+                        v-bind="ProfileController.destroy.form()"
+                        @error="() => passwordInput?.$el?.focus()"
                     >
                         <DialogHeader class="space-y-3">
                             <DialogTitle
-                                >Are you sure you want to delete your
-                                account?</DialogTitle
+                                >Sind Sie sicher, dass Sie Ihr Konto löschen
+                                möchten?</DialogTitle
                             >
                             <DialogDescription>
-                                Once your account is deleted, all of its
-                                resources and data will also be permanently
-                                deleted. Please enter your password to confirm
-                                you would like to permanently delete your
-                                account.
+                                Sobald Ihr Konto gelöscht ist, werden alle
+                                zugehörigen Ressourcen und Daten dauerhaft
+                                gelöscht. Bitte geben Sie Ihr Passwort ein, um
+                                zu bestätigen, dass Sie Ihr Konto dauerhaft
+                                löschen möchten.
                             </DialogDescription>
                         </DialogHeader>
 
                         <div class="grid gap-2">
-                            <Label for="password" class="sr-only"
-                                >Password</Label
+                            <Label class="sr-only" for="password"
+                                >Passwort</Label
                             >
                             <Input
                                 id="password"
-                                type="password"
-                                name="password"
                                 ref="passwordInput"
-                                placeholder="Password"
+                                name="password"
+                                placeholder="Passwort"
+                                type="password"
                             />
                             <InputError :message="errors.password" />
                         </div>
@@ -93,17 +94,17 @@ const passwordInput = useTemplateRef('passwordInput');
                                         }
                                     "
                                 >
-                                    Cancel
+                                    Abbrechen
                                 </Button>
                             </DialogClose>
 
                             <Button
-                                type="submit"
-                                variant="destructive"
                                 :disabled="processing"
                                 data-test="confirm-delete-user-button"
+                                type="submit"
+                                variant="destructive"
                             >
-                                Delete account
+                                Konto löschen
                             </Button>
                         </DialogFooter>
                     </Form>
