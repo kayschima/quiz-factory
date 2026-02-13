@@ -1,15 +1,23 @@
 {
     "agents": [
-        "junie"
+        "junie",
+        "codex",
+        "copilot"
     ],
     "guidelines": true,
     "herd_mcp": false,
     "mcp": true,
+    "packages": [
+        "laravel/fortify",
+        "spatie/laravel-permission"
+    ],
     "sail": false,
     "skills": [
         "wayfinder-development",
         "pest-testing",
         "inertia-vue-development",
-        "tailwindcss-development"
+        "tailwindcss-development",
+        "developing-with-fortify",
+        "laravel-permission-development"
     ]
 }
