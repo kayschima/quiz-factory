@@ -85,7 +85,7 @@ const icon = computed(() => {
             </div>
 
             <div class="pt-4">
-                <Button as-child size="lg">
+                <Button as-child variant="outline">
                     <Link href="/"> Zurück zur Startseite </Link>
                 </Button>
             </div>

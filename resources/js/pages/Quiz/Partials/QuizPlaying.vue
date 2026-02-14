@@ -1,5 +1,6 @@
 ﻿<script lang="ts" setup>
 import type { Question } from './quizTypes';
+import { Button } from '@/components/ui/button';
 
 defineProps<{
     question: Question;
@@ -28,8 +29,8 @@ defineEmits<{
             </div>
         </div>
 
-        <div class="grid gap-3">
-            <button
+        <div class="grid gap-3 lg:grid-cols-2">
+            <Button
                 v-for="answer in question.answers"
                 :key="answer.id"
                 :class="[
@@ -41,26 +42,20 @@ defineEmits<{
                 @click="$emit('toggle-answer', answer.id)"
             >
                 {{ answer.text }}
-            </button>
+            </Button>
         </div>
 
         <div class="flex items-center justify-between pt-4">
-            <button
-                class="rounded-md bg-primary px-6 py-2 font-medium text-primary-foreground"
-                @click="$emit('finish-quiz')"
-            >
+            <Button variant="outline" @click="$emit('finish-quiz')">
                 Abbrechen
-            </button>
-            <button
-                class="rounded-md bg-primary px-6 py-2 font-medium text-primary-foreground"
-                @click="$emit('next-question')"
-            >
+            </Button>
+            <Button @click="$emit('next-question')">
                 {{
                     questionIndex === totalQuestions - 1
                         ? 'Auswerten'
                         : 'Weiter'
                 }}
-            </button>
+            </Button>
         </div>
     </div>
 </template>

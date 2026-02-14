@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
 import MainLayout from '@/layouts/MainLayout.vue';
+import { Button } from '@/components/ui/button';
 
 const props = defineProps<{
     categories: Array<{ id: number; name: string }>;
@@ -190,23 +191,15 @@ const permissions = (page.props.auth?.permissions as string[]) ?? [];
             </fieldset>
 
             <div class="flex gap-3 pt-2">
-                <button
-                    :disabled="form.processing"
-                    class="rounded bg-primary px-4 py-2 text-primary-foreground disabled:opacity-50"
-                    type="submit"
-                >
+                <Button :disabled="form.processing" type="submit">
                     Speichern
-                </button>
-                <Link class="rounded border border-border px-4 py-2" href="/"
-                    >Abbrechen</Link
-                >
-                <Link
-                    v-if="!question"
-                    class="inline-flex items-center justify-center rounded-md border border-border px-5 py-3"
-                    href="/questions"
-                >
-                    Alle eingereichten Fragen
-                </Link>
+                </Button>
+                <Button as-child variant="outline">
+                    <Link href="/">Abbrechen</Link>
+                </Button>
+                <Button v-if="!question">
+                    <Link href="/questions"> Alle eingereichten Fragen </Link>
+                </Button>
             </div>
         </form>
     </MainLayout>

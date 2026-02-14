@@ -1,6 +1,7 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { Head, Link, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import { Button } from '@/components/ui/button';
 
 defineProps<{
     categories: Array<{ id: number; name: string }>;
@@ -20,39 +21,54 @@ const startQuiz = () => {
 
 <template>
     <Head title="Quiz starten" />
-    <div class="min-h-screen flex items-center justify-center p-6 bg-background">
-        <div class="w-full max-w-xl rounded-lg border p-6 space-y-6 border-border">
+    <div
+        class="flex min-h-screen items-center justify-center bg-background p-6"
+    >
+        <div
+            class="w-full max-w-xl space-y-6 rounded-lg border border-border p-6"
+        >
             <h1 class="text-2xl font-semibold">Quiz konfigurieren</h1>
             <div class="space-y-4">
                 <div>
-                    <label class="block text-sm mb-1">Schwierigkeit</label>
+                    <label class="mb-1 block text-sm">Schwierigkeit</label>
                     <select
                         v-model="difficultyId"
-                        class="w-full border rounded px-3 py-2 bg-background border-border"
+                        class="w-full rounded border border-border bg-background px-3 py-2"
                     >
                         <option value="any">egal</option>
-                        <option v-for="diff in difficulties" :key="diff.id" :value="diff.id">{{ diff.name }}</option>
+                        <option
+                            v-for="diff in difficulties"
+                            :key="diff.id"
+                            :value="diff.id"
+                        >
+                            {{ diff.name }}
+                        </option>
                     </select>
                 </div>
                 <div>
-                    <label class="block text-sm mb-1">Kategorie</label>
+                    <label class="mb-1 block text-sm">Kategorie</label>
                     <select
                         v-model="categoryId"
-                        class="w-full border rounded px-3 py-2 bg-background border-border"
+                        class="w-full rounded border border-border bg-background px-3 py-2"
                     >
                         <option value="any">egal</option>
-                        <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
+                        <option
+                            v-for="cat in categories"
+                            :key="cat.id"
+                            :value="cat.id"
+                        >
+                            {{ cat.name }}
+                        </option>
                     </select>
                 </div>
             </div>
             <div class="flex gap-3">
-                <button
-                    @click="startQuiz"
-                    class="rounded bg-primary px-4 py-2 text-primary-foreground"
-                >
-                    Start
-                </button>
-                <Link href="/" class="rounded border px-4 py-2 border-border">Abbrechen</Link>
+                <Button as-child>
+                    <Link @click="startQuiz">Start</Link>
+                </Button>
+                <Button as-child variant="outline">
+                    <Link href="/">Abbrechen</Link>
+                </Button>
             </div>
         </div>
     </div>

@@ -1,6 +1,7 @@
 ﻿<script lang="ts" setup>
 import { Link } from '@inertiajs/vue3';
 import type { Question } from './quizTypes';
+import { Button } from '@/components/ui/button';
 
 defineProps<{
     questions: Question[];
@@ -20,7 +21,10 @@ defineProps<{
                 <span class="font-bold text-foreground">{{ score }}</span>
                 von {{ questions.length }} Fragen richtig beantwortet.
             </p>
-            <p v-if="elapsedTime !== null" class="text-sm text-muted-foreground">
+            <p
+                v-if="elapsedTime !== null"
+                class="text-sm text-muted-foreground"
+            >
                 Benötigte Zeit:
                 <span class="font-medium text-foreground">{{
                     formatTime(elapsedTime)
@@ -80,12 +84,9 @@ defineProps<{
         </div>
 
         <div class="pt-6 text-center">
-            <Link
-                class="inline-flex items-center justify-center rounded-md bg-primary px-8 py-3 font-medium text-primary-foreground"
-                href="/"
-            >
-                Quiz beenden
-            </Link>
+            <Button as-child>
+                <Link href="/"> Quiz beenden </Link>
+            </Button>
         </div>
     </div>
 </template>
