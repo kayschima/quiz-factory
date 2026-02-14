@@ -22,5 +22,6 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'create questions'])->assignRole([$user, $editor, $admin, $superadmin]);
         Permission::create(['name' => 'edit questions'])->assignRole([$editor, $admin, $superadmin]);
         Permission::create(['name' => 'delete questions'])->assignRole([$editor, $admin, $superadmin]);
+        Permission::create(['name' => 'delete users'])->assignRole([$admin, $superadmin]);
     }
 }

@@ -21,12 +21,15 @@ class DatabaseSeeder extends Seeder
                 QuestionSeeder::class,
             ]);
 
-            $user = User::factory()->create([
+            User::factory()->create([
                 'name' => 'Test User',
                 'email' => 'test@example.com',
-            ]);
+            ])->assignRole(['user']);
 
-            $user->assignRole(['user']);
+            User::factory()->create([
+                'name' => 'Admin User',
+                'email' => 'admin@example.com',
+            ])->assignRole(['admin']);
         }
     }
 }
