@@ -46,26 +46,26 @@ const pinInputContainerRef = useTemplateRef('pinInputContainerRef');
 const modalConfig = computed<TwoFactorConfigContent>(() => {
     if (props.twoFactorEnabled) {
         return {
-            title: 'Two-Factor Authentication Enabled',
+            title: 'Zwei-Faktor-Authentifizierung aktiviert',
             description:
-                'Two-factor authentication is now enabled. Scan the QR code or enter the setup key in your authenticator app.',
-            buttonText: 'Close',
+                'Die Zwei-Faktor-Authentifizierung ist jetzt aktiviert. Scannen Sie den QR-Code oder geben Sie den Einrichtungsschlüssel in Ihre Authentifizierungs-App ein.',
+            buttonText: 'Schließen',
         };
     }
 
     if (showVerificationStep.value) {
         return {
-            title: 'Verify Authentication Code',
-            description: 'Enter the 6-digit code from your authenticator app',
-            buttonText: 'Continue',
+            title: 'Authentifizierungscode verifizieren',
+            description: 'Geben Sie den 6-stelligen Code aus Ihrer Authentifizierungs-App ein',
+            buttonText: 'Weiter',
         };
     }
 
     return {
-        title: 'Enable Two-Factor Authentication',
+        title: 'Zwei-Faktor-Authentifizierung aktivieren',
         description:
-            'To finish enabling two-factor authentication, scan the QR code or enter the setup key in your authenticator app',
-        buttonText: 'Continue',
+            'Um die Aktivierung der Zwei-Faktor-Authentifizierung abzuschließen, scannen Sie den QR-Code oder geben Sie den Einrichtungsschlüssel in Ihre Authentifizierungs-App ein',
+        buttonText: 'Weiter',
     };
 });
 
@@ -196,7 +196,7 @@ watch(
                                 class="absolute inset-0 top-1/2 h-px w-full bg-border"
                             />
                             <span class="relative bg-card px-2 py-1"
-                                >or, enter the code manually</span
+                                >oder geben Sie den Code manuell ein</span
                             >
                         </div>
 
