@@ -113,11 +113,11 @@ const code = ref<string>('');
                     />
                     <InputError :message="errors.recovery_code" />
                     <Button :disabled="processing" class="w-full" type="submit"
-                        >Continue</Button
+                        >Weiter</Button
                     >
 
                     <div class="text-center text-sm text-muted-foreground">
-                        <span>or you can </span>
+                        <span>oder </span>
                         <button
                             class="text-foreground underline decoration-border underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current!"
                             type="button"

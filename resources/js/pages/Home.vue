@@ -6,7 +6,7 @@ import MainLayout from '@/layouts/MainLayout.vue';
 </script>
 
 <template>
-    <Head title="Home" />
+    <Head title="Startseite" />
     <MainLayout>
         <AppLogo class="mx-auto mb-6" />
         <h1 class="mb-2 text-3xl font-semibold">

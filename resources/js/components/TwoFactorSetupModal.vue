@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { Form } from '@inertiajs/vue3';
 import { useClipboard } from '@vueuse/core';
 import { Check, Copy, ScanLine } from 'lucide-vue-next';
@@ -170,14 +170,14 @@ watch(
                                     class="relative z-10 overflow-hidden border p-5"
                                 >
                                     <div
-                                        v-html="qrCodeSvg"
-                                        class="flex aspect-square size-full items-center justify-center"
                                         :style="{
                                             filter:
                                                 resolvedAppearance === 'dark'
                                                     ? 'invert(1) brightness(1.5)'
                                                     : undefined,
                                         }"
+                                        class="flex aspect-square size-full items-center justify-center"
+                                        v-html="qrCodeSvg"
                                     />
                                 </div>
                             </div>
@@ -214,14 +214,14 @@ watch(
                                 </div>
                                 <template v-else>
                                     <input
-                                        type="text"
-                                        readonly
                                         :value="manualSetupKey"
                                         class="h-full w-full bg-background p-3 text-foreground"
+                                        readonly
+                                        type="text"
                                     />
                                     <button
-                                        @click="copy(manualSetupKey || '')"
                                         class="relative block h-auto border-l border-border px-3 hover:bg-muted"
+                                        @click="copy(manualSetupKey || '')"
                                     >
                                         <Check
                                             v-if="copied"
@@ -237,13 +237,13 @@ watch(
 
                 <template v-else>
                     <Form
-                        v-bind="confirm.form()"
+                        v-slot="{ errors, processing }"
                         reset-on-error
+                        v-bind="confirm.form()"
                         @finish="code = ''"
                         @success="isOpen = false"
-                        v-slot="{ errors, processing }"
                     >
-                        <input type="hidden" name="code" :value="code" />
+                        <input :value="code" name="code" type="hidden" />
                         <div
                             ref="pinInputContainerRef"
                             class="relative w-full space-y-3"
@@ -254,8 +254,8 @@ watch(
                                 <InputOTP
                                     id="otp"
                                     v-model="code"
-                                    :maxlength="6"
                                     :disabled="processing"
+                                    :maxlength="6"
                                 >
                                     <InputOTPGroup>
                                         <InputOTPSlot
@@ -275,20 +275,20 @@ watch(
 
                             <div class="flex w-full items-center space-x-5">
                                 <Button
+                                    :disabled="processing"
+                                    class="w-auto flex-1"
                                     type="button"
                                     variant="outline"
-                                    class="w-auto flex-1"
                                     @click="showVerificationStep = false"
-                                    :disabled="processing"
                                 >
-                                    Back
+                                    Zurück
                                 </Button>
                                 <Button
-                                    type="submit"
-                                    class="w-auto flex-1"
                                     :disabled="processing || code.length < 6"
+                                    class="w-auto flex-1"
+                                    type="submit"
                                 >
-                                    Confirm
+                                    Bestätigen
                                 </Button>
                             </div>
                         </div>

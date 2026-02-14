@@ -1,16 +1,10 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { Form } from '@inertiajs/vue3';
 import { Eye, EyeOff, LockKeyhole, RefreshCw } from 'lucide-vue-next';
 import { nextTick, onMounted, ref, useTemplateRef } from 'vue';
 import AlertError from '@/components/AlertError.vue';
 import { Button } from '@/components/ui/button';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTwoFactorAuth } from '@/composables/useTwoFactorAuth';
 import { regenerateRecoveryCodes } from '@/routes/two-factor';
 
@@ -53,7 +47,7 @@ onMounted(async () => {
             <div
                 class="flex flex-col gap-3 select-none sm:flex-row sm:items-center sm:justify-between"
             >
-                <Button @click="toggleRecoveryCodesVisibility" class="w-fit">
+                <Button class="w-fit" @click="toggleRecoveryCodesVisibility">
                     <component
                         :is="isRecoveryCodesVisible ? EyeOff : Eye"
                         class="size-4"
@@ -64,16 +58,16 @@ onMounted(async () => {
 
                 <Form
                     v-if="isRecoveryCodesVisible && recoveryCodesList.length"
-                    v-bind="regenerateRecoveryCodes.form()"
-                    method="post"
-                    :options="{ preserveScroll: true }"
-                    @success="fetchRecoveryCodes"
                     #default="{ processing }"
+                    :options="{ preserveScroll: true }"
+                    method="post"
+                    v-bind="regenerateRecoveryCodes.form()"
+                    @success="fetchRecoveryCodes"
                 >
                     <Button
-                        variant="secondary"
-                        type="submit"
                         :disabled="processing"
+                        type="submit"
+                        variant="secondary"
                     >
                         <RefreshCw /> Regenerate Codes
                     </Button>
@@ -103,18 +97,19 @@ onMounted(async () => {
                             ></div>
                         </div>
                         <div
-                            v-else
                             v-for="(code, index) in recoveryCodesList"
+                            v-else
                             :key="index"
                         >
                             {{ code }}
                         </div>
                     </div>
                     <p class="text-xs text-muted-foreground select-none">
-                        Each recovery code can be used once to access your
-                        account and will be removed after use. If you need more,
-                        click
-                        <span class="font-bold">Regenerate Codes</span> above.
+                        Jeder Wiederherstellungscode kann einmal verwendet
+                        werden, um auf Ihr Konto zuzugreifen, und wird nach der
+                        Verwendung entfernt. Wenn Sie mehr benötigen, klicken
+                        Sie oben auf
+                        <span class="font-bold">Codes neu generieren</span>.
                     </p>
                 </div>
             </div>
