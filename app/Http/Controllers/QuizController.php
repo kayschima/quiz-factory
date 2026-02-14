@@ -4,13 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Difficulty;
-use App\Models\Question;
+use App\Services\QuizService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class QuizController extends Controller
 {
+    public function __construct(
+        private readonly QuizService $quizService
+    ) {}
+
     /**
      * Show the quiz setup page.
      */
@@ -25,24 +30,12 @@ class QuizController extends Controller
     /**
      * Get questions for the quiz based on filters.
      */
-    public function questions(Request $request)
+    public function questions(Request $request): JsonResponse
     {
-        $query = Question::where('approved', true)->with('answers');
-
-        if ($request->difficulty_id && $request->difficulty_id !== 'any') {
-            $query->where('difficulty_id', $request->difficulty_id);
-        }
-
-        if ($request->category_id && $request->category_id !== 'any') {
-            $query->where('category_id', $request->category_id);
-        }
-
-        $questions = $query->inRandomOrder()->limit(10)->get();
-
-        // Shuffle answers for each question
-        $questions->each(function ($question) {
-            $question->setRelation('answers', $question->answers->shuffle());
-        });
+        $questions = $this->quizService->getQuizQuestions(
+            difficultyId: $request->difficulty_id,
+            categoryId: $request->category_id
+        );
 
         return response()->json($questions);
     }
