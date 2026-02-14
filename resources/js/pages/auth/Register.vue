@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { Form, Head } from '@inertiajs/vue3';
+import { Form, Head, usePage } from '@inertiajs/vue3';
+import { onMounted, onUnmounted, useId } from 'vue';
 import InputError from '@/components/InputError.vue';
 import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
@@ -9,6 +10,36 @@ import { Spinner } from '@/components/ui/spinner';
 import MainLayout from '@/layouts/MainLayout.vue';
 import { login } from '@/routes';
 import { store } from '@/routes/register';
+
+const page = usePage();
+const recaptchaId = useId().replace(/:/g, '');
+
+onMounted(() => {
+    window.renderRecaptcha = renderCaptcha;
+
+    if (!window.grecaptcha) {
+        const script = document.createElement('script');
+        script.src =
+            'https://www.google.com/recaptcha/api.js?render=explicit&onload=renderRecaptcha';
+        script.async = true;
+        script.defer = true;
+        document.head.appendChild(script);
+    } else {
+        renderCaptcha();
+    }
+});
+
+const renderCaptcha = () => {
+    if (window.grecaptcha && window.grecaptcha.render) {
+        window.grecaptcha.render(recaptchaId, {
+            sitekey: page.props.recaptcha_site_key,
+        });
+    }
+};
+
+onUnmounted(() => {
+    delete window.renderRecaptcha;
+});
 </script>
 
 <template>
@@ -79,6 +110,11 @@ import { store } from '@/routes/register';
                         type="password"
                     />
                     <InputError :message="errors.password_confirmation" />
+                </div>
+
+                <div class="flex flex-col items-center justify-center gap-2">
+                    <div :id="recaptchaId"></div>
+                    <InputError :message="errors['g-recaptcha-response']" />
                 </div>
 
                 <Button
