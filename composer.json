@@ -1,9 +1,10 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/vue-starter-kit",
+    "name": "kayschima/quiz-factory",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "A quiz factory brought to you by kayschima.",
     "keywords": [
+        "quiz",
         "laravel",
         "framework"
     ],
