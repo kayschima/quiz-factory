@@ -1,8 +1,13 @@
 <script lang="ts" setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
 import QuestionIndexController from '@/actions/App/Http/Controllers/QuestionIndexController';
+import UserController from '@/actions/App/Http/Controllers/UserController';
 import AppLogo from '@/components/AppLogo.vue';
+import { Button } from '@/components/ui/button';
 import MainLayout from '@/layouts/MainLayout.vue';
+
+const page = usePage();
+const permissions = (page.props.auth?.permissions as string[]) ?? [];
 </script>
 
 <template>
@@ -18,18 +23,19 @@ import MainLayout from '@/layouts/MainLayout.vue';
         <div
             class="flex flex-col items-center justify-center gap-3 sm:flex-row"
         >
-            <Link
-                class="inline-flex items-center justify-center rounded-md bg-primary px-5 py-3 text-primary-foreground"
-                href="/quiz"
-            >
-                Quiz teilnehmen
-            </Link>
-            <Link
-                :href="QuestionIndexController.get()"
-                class="inline-flex items-center justify-center rounded-md border border-border px-5 py-3"
-            >
-                Fragen einsehen & einreichen
-            </Link>
+            <Button as-child>
+                <Link href="/quiz"> Quiz teilnehmen </Link>
+            </Button>
+
+            <Button as-child>
+                <Link :href="QuestionIndexController.get()">
+                    Fragen einsehen & einreichen
+                </Link>
+            </Button>
+
+            <Button v-if="permissions.includes('delete users')" as-child>
+                <Link :href="UserController.index()">Benutzerverwaltung</Link>
+            </Button>
         </div>
     </MainLayout>
 </template>
