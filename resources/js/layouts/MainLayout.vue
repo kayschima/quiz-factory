@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { Link, usePage } from '@inertiajs/vue3';
-import { LogIn, LogOut, UserPlus } from 'lucide-vue-next';
+import { Github, LogIn, LogOut, UserPlus } from 'lucide-vue-next';
 import { computed } from 'vue';
 import settings from '@/actions/App/Http/Controllers/Settings';
 import { Button } from '@/components/ui/button';
@@ -99,6 +99,14 @@ const user = computed(() => page.props.auth?.user);
                     <Link class="hover:text-foreground" href="/impressum">
                         Impressum
                     </Link>
+                    <a
+                        class="hover:text-foreground"
+                        href="https://github.com/kayschima/quiz-factory"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                    >
+                        <Github class="h-5 w-5" />
+                    </a>
                 </div>
             </div>
         </footer>
