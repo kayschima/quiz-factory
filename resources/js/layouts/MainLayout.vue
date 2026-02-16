@@ -14,7 +14,7 @@ const user = computed(() => page.props.auth?.user);
 <template>
     <div class="flex min-h-dvh flex-col bg-background text-foreground">
         <header
-            class="fixed flex w-full items-center justify-between border-b bg-card px-6 py-4"
+            class="flex w-full items-center justify-between border-b bg-card px-6 py-4"
         >
             <Link class="text-xl font-bold tracking-tight" href="/">
                 {{ page.props.name }}
@@ -80,7 +80,7 @@ const user = computed(() => page.props.auth?.user);
             </nav>
         </header>
 
-        <main class="mt-16 flex-1 px-6 py-10">
+        <main class="flex-1 px-6 py-10">
             <div class="mx-auto w-full max-w-4xl text-center">
                 <slot />
             </div>

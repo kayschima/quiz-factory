@@ -33,12 +33,8 @@ defineEmits<{
             <Button
                 v-for="answer in question.answers"
                 :key="answer.id"
-                :class="[
-                    isAnswerSelected(answer.id)
-                        ? 'border-primary bg-primary text-primary-foreground'
-                        : 'border-border bg-background hover:border-foreground/50',
-                ]"
-                class="w-full rounded-lg border p-4 text-left transition-all"
+                :variant="isAnswerSelected(answer.id) ? 'default' : 'outline'"
+                class="w-full rounded-lg border p-4 text-left text-lg transition-all"
                 @click="$emit('toggle-answer', answer.id)"
             >
                 {{ answer.text }}
