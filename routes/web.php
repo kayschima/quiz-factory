@@ -22,6 +22,10 @@ Route::get('/impressum', function () {
     return Inertia::render('Impressum');
 })->name('impressum');
 
+Route::get('/spielregeln', function () {
+    return Inertia::render('Spielregeln');
+})->name('spielregeln');
+
 Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

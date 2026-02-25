@@ -27,6 +27,10 @@ const permissions = (page.props.auth?.permissions as string[]) ?? [];
                 <Link href="/quiz"> Quiz teilnehmen </Link>
             </Button>
 
+            <Button as-child variant="outline">
+                <Link href="/spielregeln"> Spielregeln </Link>
+            </Button>
+
             <Button as-child>
                 <Link :href="QuestionIndexController.get()">
                     Fragen einsehen & einreichen
