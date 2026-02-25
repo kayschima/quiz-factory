@@ -1,4 +1,4 @@
 [mcp_servers.laravel-boost]
 command = "php"
 args = ["artisan", "boost:mcp"]
-cwd = "C:\\Users\\Kay\\Documents\\websites\\Herd\\quiz-factory"
+cwd = "D:\\websites\\Herd\\st.pauli-fu-ball-quiz"

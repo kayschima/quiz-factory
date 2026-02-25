@@ -3,7 +3,7 @@
         "laravel-boost": {
             "command": "C:\\Users\\Kay\\.config\\herd\\bin\\php85\\php.exe",
             "args": [
-                "C:\\Users\\Kay\\Documents\\websites\\Herd\\quiz-factory\\artisan",
+                "D:\\websites\\Herd\\st.pauli-fu-ball-quiz\\artisan",
                 "boost:mcp"
             ]
         }
