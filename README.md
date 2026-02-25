@@ -10,7 +10,7 @@ Quiz Factory ist eine Full-Stack-Webanwendung, die es ermöglicht:
 - **Kategorien nutzen** - Fragen werden in verschiedene Kategorien eingeteilt
 - **Schwierigkeitsgrade wählen** - Fragen können nach Schwierigkeit klassifiziert werden
 - **Quizze spielen** - Interaktive Quiz-Sessions mit sofortigem Feedback
-- **Benutzerverwaltung** - Registrierung, Anmeldung und Profilverwaltung
+- **Benutzerverwaltung** - Registrierung, Anmeldung und Profilverwaltung (Admin-Rechte vorausgesetzt)
 
 ## 🚀 Technologie-Stack
 
