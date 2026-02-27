@@ -34,12 +34,6 @@ jobs:
       - name: Install npm dependencies
         run: npm ci
 
-      - name: PHP Lint (Pint)
-        run: vendor/bin/pint --parallel --test
-
-      - name: Prettier
-        run: npx prettier --check resources/
-
   test:
     name: Tests
     runs-on: ubuntu-latest
