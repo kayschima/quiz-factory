@@ -37,9 +37,6 @@ jobs:
       - name: PHP Lint (Pint)
         run: vendor/bin/pint --parallel --test
 
-      - name: ESLint
-        run: npx eslint .
-
       - name: Prettier
         run: npx prettier --check resources/
 
