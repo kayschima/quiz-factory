@@ -1,6 +1,6 @@
 ﻿<script lang="ts" setup>
-import type { Question } from './quizTypes';
 import { Button } from '@/components/ui/button';
+import type { Question } from './quizTypes';
 
 defineProps<{
     question: Question;
@@ -34,7 +34,7 @@ defineEmits<{
                 v-for="answer in question.answers"
                 :key="answer.id"
                 :variant="isAnswerSelected(answer.id) ? 'default' : 'outline'"
-                class="w-full rounded-lg border p-4 text-left text-lg transition-all"
+                class="h-auto min-h-16 w-full rounded-lg border p-4 text-center text-base whitespace-normal transition-all lg:min-h-24 lg:text-lg"
                 @click="$emit('toggle-answer', answer.id)"
             >
                 {{ answer.text }}
