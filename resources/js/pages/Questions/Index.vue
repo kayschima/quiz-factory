@@ -150,11 +150,15 @@ onMounted(() => {
     <Head title="Fragenübersicht" />
 
     <MainLayout>
-        <div class="container mx-auto px-4 py-10">
-            <div class="flex flex-col gap-6">
-                <div class="flex items-center justify-between">
+        <div class="container mx-auto px-4 py-6 md:py-10">
+            <div class="flex flex-col gap-4 md:gap-6">
+                <div
+                    class="flex flex-col items-start gap-3 md:flex-row md:items-center md:justify-between"
+                >
                     <div>
-                        <h1 class="text-3xl font-bold tracking-tight">
+                        <h1
+                            class="text-2xl font-bold tracking-tight md:text-3xl"
+                        >
                             {{
                                 props.filters.approved === 'true'
                                     ? 'Zugelassene Fragen'
@@ -163,7 +167,9 @@ onMounted(() => {
                                       : 'Alle Fragen'
                             }}
                         </h1>
-                        <p class="text-muted-foreground">
+                        <p
+                            class="hidden text-sm text-muted-foreground md:block md:text-base"
+                        >
                             {{
                                 props.filters.approved === 'true'
                                     ? 'Hier sind alle bereits geprüften und zugelassenen Fragen aufgelistet.'
@@ -173,14 +179,14 @@ onMounted(() => {
                             }}
                         </p>
                     </div>
-                    <div class="flex items-center gap-2">
+                    <div class="flex w-full flex-wrap items-center gap-2">
                         <Button as-child variant="outline">
                             <Link href="/">Zurück</Link>
                         </Button>
                         <Button as-child>
                             <Link
                                 :href="QuestionController.create()"
-                                class="flex items-center gap-2"
+                                class="flex items-center gap-2 md:w-auto"
                             >
                                 <Plus class="h-4 w-4" />
                                 Frage hinzufügen
@@ -189,8 +195,10 @@ onMounted(() => {
                     </div>
                 </div>
 
-                <div class="flex items-center gap-4">
-                    <div class="w-full max-w-xs">
+                <div
+                    class="grid grid-cols-2 gap-3 md:flex md:items-center md:gap-4"
+                >
+                    <div class="col-span-1 w-full md:max-w-xs">
                         <Select
                             :model-value="props.filters.category || 'all'"
                             @update:model-value="filterByCategory"
@@ -213,7 +221,7 @@ onMounted(() => {
                         </Select>
                     </div>
 
-                    <div class="w-full max-w-xs">
+                    <div class="col-span-1 w-full md:max-w-xs">
                         <Select
                             :model-value="props.filters.difficulty || 'all'"
                             @update:model-value="filterByDifficulty"
@@ -238,7 +246,7 @@ onMounted(() => {
                         </Select>
                     </div>
 
-                    <div class="w-full max-w-xs">
+                    <div class="col-span-1 w-full md:max-w-xs">
                         <Select
                             v-if="permissions.includes('edit questions')"
                             :model-value="props.filters.approved || 'all'"
@@ -260,16 +268,24 @@ onMounted(() => {
                     </div>
                 </div>
 
-                <div class="rounded-md border">
-                    <Table>
+                <div
+                    class="max-h-[400px] overflow-x-auto overflow-y-auto rounded-md border md:max-h-none md:overflow-visible"
+                >
+                    <Table class="mt-2 min-w-[300px] md:min-w-full">
                         <TableHeader>
                             <TableRow>
-                                <TableHead class="w-[100px]">ID</TableHead>
+                                <TableHead class="hidden w-[100px] md:table-cell"
+                                    >ID</TableHead
+                                >
                                 <TableHead class="min-w-[200px]"
                                     >Frage</TableHead
                                 >
-                                <TableHead>Kategorie</TableHead>
-                                <TableHead>Schwierigkeit</TableHead>
+                                <TableHead class="hidden md:table-cell"
+                                    >Kategorie</TableHead
+                                >
+                                <TableHead class="hidden md:table-cell"
+                                    >Schwierigkeit</TableHead
+                                >
                                 <TableHead class="text-right"
                                     >Aktionen</TableHead
                                 >
@@ -280,7 +296,7 @@ onMounted(() => {
                                 v-for="question in questions.data"
                                 :key="question.id"
                             >
-                                <TableCell class="font-medium"
+                                <TableCell class="hidden font-medium md:table-cell"
                                     >#{{ question.id }}</TableCell
                                 >
                                 <TableCell
@@ -288,10 +304,10 @@ onMounted(() => {
                                 >
                                     {{ question.text }}
                                 </TableCell>
-                                <TableCell>{{
+                                <TableCell class="hidden md:table-cell">{{
                                     question.category.name
                                 }}</TableCell>
-                                <TableCell>{{
+                                <TableCell class="hidden md:table-cell">{{
                                     question.difficulty.name
                                 }}</TableCell>
                                 <TableCell class="text-right">
@@ -346,20 +362,22 @@ onMounted(() => {
                     v-if="questions.links.length > 3"
                     class="flex justify-center"
                 >
-                    <nav class="flex items-center gap-1">
+                    <nav
+                        class="flex flex-wrap items-center justify-center gap-1"
+                    >
                         <template
                             v-for="(link, key) in questions.links"
                             :key="key"
                         >
                             <div
                                 v-if="link.url === null"
-                                class="rounded-md border border-border px-4 py-2 text-sm text-muted-foreground"
+                                class="rounded-md border border-border px-2 py-1 text-xs text-muted-foreground md:px-4 md:py-2 md:text-sm"
                                 v-html="link.label"
                             />
                             <Link
                                 v-else
                                 :class="[
-                                    'rounded-md border border-border px-4 py-2 text-sm transition-colors hover:bg-accent',
+                                    'rounded-md border border-border px-2 py-1 text-xs transition-colors hover:bg-accent md:px-4 md:py-2 md:text-sm',
                                     link.active
                                         ? 'bg-primary text-primary-foreground hover:bg-primary/90'
                                         : 'bg-background',
