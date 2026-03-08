@@ -59,7 +59,7 @@ const permissions = (page.props.auth?.permissions as string[]) ?? [];
             <Link class="text-sm underline" href="/">Zurück</Link>
         </div>
 
-        <form class="space-y-4" @submit.prevent="submit">
+        <form class="mt-4 space-y-4" @submit.prevent="submit">
             <div>
                 <label class="mb-1 block text-sm">Fragetext</label>
                 <input
@@ -190,14 +190,14 @@ const permissions = (page.props.auth?.permissions as string[]) ?? [];
                 </div>
             </fieldset>
 
-            <div class="flex gap-3 pt-2">
+            <div class="grid grid-cols-2 gap-3 pt-2">
                 <Button :disabled="form.processing" type="submit">
                     Speichern
                 </Button>
                 <Button as-child variant="outline">
                     <Link href="/">Abbrechen</Link>
                 </Button>
-                <Button v-if="!question">
+                <Button class="col-span-2" v-if="!question">
                     <Link href="/questions"> Alle eingereichten Fragen </Link>
                 </Button>
             </div>
