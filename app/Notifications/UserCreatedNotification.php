@@ -11,6 +11,10 @@ class UserCreatedNotification extends Notification
 
     public function via($notifiable): array
     {
+        if (! config('services.telegram-bot-api.enabled')) {
+            return [];
+        }
+
         return ['telegram'];
     }
 

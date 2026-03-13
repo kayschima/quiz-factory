@@ -41,6 +41,7 @@ return [
     ],
 
     'telegram-bot-api' => [
+        'enabled' => env('TELEGRAM_ENABLED', false),
         'token' => env('TELEGRAM_BOT_TOKEN', 'YOUR BOT TOKEN HERE'),
         'chat_id' => env('TELEGRAM_CHAT_ID', 'YOUR CHAT ID HERE'),
     ],
