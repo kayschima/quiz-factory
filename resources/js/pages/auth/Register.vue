@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { Form, Head, usePage } from '@inertiajs/vue3';
-import { onMounted, onUnmounted, useId } from 'vue';
+import { onMounted } from 'vue';
 import InputError from '@/components/InputError.vue';
 import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
@@ -12,33 +12,20 @@ import { login } from '@/routes';
 import { store } from '@/routes/register';
 
 const page = usePage();
-const recaptchaId = useId().replace(/:/g, '');
 
 onMounted(() => {
-    window.renderRecaptcha = renderCaptcha;
+    if (document.querySelector('script[data-turnstile]')) {
+        return;
+    }
 
-    if (!window.grecaptcha) {
+    if (!window.turnstile) {
         const script = document.createElement('script');
-        script.src =
-            'https://www.google.com/recaptcha/api.js?render=explicit&onload=renderRecaptcha';
+        script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
         script.async = true;
         script.defer = true;
+        script.dataset.turnstile = 'true';
         document.head.appendChild(script);
-    } else {
-        renderCaptcha();
     }
-});
-
-const renderCaptcha = () => {
-    if (window.grecaptcha && window.grecaptcha.render) {
-        window.grecaptcha.render(recaptchaId, {
-            sitekey: page.props.recaptcha_site_key,
-        });
-    }
-};
-
-onUnmounted(() => {
-    delete window.renderRecaptcha;
 });
 </script>
 
@@ -113,8 +100,11 @@ onUnmounted(() => {
                 </div>
 
                 <div class="flex flex-col items-center justify-center gap-2">
-                    <div :id="recaptchaId"></div>
-                    <InputError :message="errors['g-recaptcha-response']" />
+                    <div
+                        class="cf-turnstile"
+                        :data-sitekey="page.props.turnstile_site_key"
+                    ></div>
+                    <InputError :message="errors['cf-turnstile-response']" />
                 </div>
 
                 <Button

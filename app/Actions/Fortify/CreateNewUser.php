@@ -5,7 +5,7 @@ namespace App\Actions\Fortify;
 use App\Concerns\PasswordValidationRules;
 use App\Concerns\ProfileValidationRules;
 use App\Models\User;
-use App\Rules\ReCaptcha;
+use App\Rules\Turnstile;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 
@@ -23,9 +23,9 @@ class CreateNewUser implements CreatesNewUsers
         Validator::make($input, [
             ...$this->profileRules(),
             'password' => $this->passwordRules(),
-            'g-recaptcha-response' => ['required', new ReCaptcha],
+            'cf-turnstile-response' => ['required', new Turnstile],
         ], [
-            'g-recaptcha-response.required' => 'Bitte bestätigen Sie, dass Sie keine Maschine sind.',
+            'cf-turnstile-response.required' => 'Bitte bestätigen Sie, dass Sie keine Maschine sind.',
         ])->validate();
 
         $user = User::create([

@@ -18,7 +18,7 @@
         "pest-testing",
         "inertia-vue-development",
         "tailwindcss-development",
-        "developing-with-fortify",
+        "fortify-development",
         "laravel-permission-development"
     ]
 }

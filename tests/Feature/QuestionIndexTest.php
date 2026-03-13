@@ -4,8 +4,13 @@ use App\Models\Category;
 use App\Models\Difficulty;
 use App\Models\Question;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
 
 uses(RefreshDatabase::class);
+
+beforeEach(function () {
+    Notification::fake();
+});
 
 test('it can display approved questions', function () {
     $category = Category::create(['name' => 'General']);

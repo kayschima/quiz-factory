@@ -49,7 +49,7 @@ class HandleInertiaRequests extends Middleware
                 'success' => $request->session()->get('success'),
                 'error' => $request->session()->get('error'),
             ],
-            'recaptcha_site_key' => config('services.recaptcha.site_key'),
+            'turnstile_site_key' => config('services.turnstile.site_key'),
         ];
     }
 }
