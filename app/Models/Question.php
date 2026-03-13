@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Observers\QuestionObserver;
+use Database\Factories\QuestionFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +14,7 @@ use Illuminate\Notifications\Notifiable;
 #[ObservedBy([QuestionObserver::class])]
 class Question extends Model
 {
-    /** @use HasFactory<\Database\Factories\QuestionFactory> */
+    /** @use HasFactory<QuestionFactory> */
     use HasFactory, Notifiable;
 
     protected $fillable = [
