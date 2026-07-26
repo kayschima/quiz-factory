@@ -1,9 +1,9 @@
 {
     "mcpServers": {
         "laravel-boost": {
-            "command": "C:\\Users\\Kay\\.config\\herd\\bin\\php85\\php.exe",
+            "command": "/home/kay/.local/share/yerd/php/php-8.5/bin/php",
             "args": [
-                "C:\\Users\\Kay\\Herd\\quiz\\artisan",
+                "/home/kay/yerd/stpauli/artisan",
                 "boost:mcp"
             ]
         }
